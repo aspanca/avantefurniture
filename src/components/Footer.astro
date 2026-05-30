@@ -1,82 +1,112 @@
 ---
-import { SITE, NAV } from '../lib/site';
+import { SITE, SPACES } from '../lib/site';
 const year = new Date().getFullYear();
+const spaceList = Object.values(SPACES);
 ---
 
 <footer class="footer">
   <div class="container footer-grid">
-    <div>
-      <p class="footer-brand">{SITE.name}</p>
+    <div class="footer-brand-col">
+      <p class="footer-brand">
+        <span class="footer-logo-mark" aria-hidden="true">A</span>
+        {SITE.name}
+      </p>
       <p class="footer-tagline">{SITE.tagline}</p>
       <p class="footer-desc">{SITE.description}</p>
     </div>
+
     <div>
-      <p class="footer-heading">Explore</p>
+      <p class="footer-heading">Work</p>
       <ul>
-        {NAV.map((item) => (
-          <li>
-            <a href={item.href}>{item.label}</a>
-          </li>
+        {spaceList.map((s) => (
+          <li><a href={`/spaces/${s.slug}`}>{s.title}</a></li>
         ))}
       </ul>
     </div>
+
     <div>
-      <p class="footer-heading">Get in touch</p>
-      <p>
-        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      </p>
-      <p>
-        <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a>
-      </p>
+      <p class="footer-heading">Company</p>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Journal</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/admin">CMS Login</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-heading">Contact</p>
+      <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+      <p><a href={`tel:${SITE.phone.replace(/\D/g, '')}`}>{SITE.phone}</a></p>
+      <a href="/contact" class="footer-cta">Start a project →</a>
     </div>
   </div>
+
   <div class="container footer-bottom">
     <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+    <p class="footer-made">Crafted with care.</p>
   </div>
 </footer>
 
 <style>
   .footer {
-    margin-top: 5rem;
-    padding: 3rem 0 2rem;
-    background: var(--color-text);
+    margin-top: 0;
+    padding: 4rem 0 2rem;
+    background: #0e0e0e;
     color: #e8e4df;
   }
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 2.5rem;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .footer-logo-mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: 7px;
+    font-size: 0.95rem;
   }
 
   .footer-tagline {
     color: var(--color-accent);
     font-weight: 600;
-    margin: 0 0 1rem;
+    font-size: 0.875rem;
+    margin: 0 0 0.75rem;
   }
 
   .footer-desc {
-    color: #a8a4a0;
-    font-size: 0.9rem;
-    max-width: 36ch;
+    color: #888;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    max-width: 32ch;
     margin: 0;
   }
 
   .footer-heading {
     font-weight: 700;
     margin: 0 0 1rem;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
+    color: #999;
   }
 
   .footer ul {
@@ -86,29 +116,61 @@ const year = new Date().getFullYear();
   }
 
   .footer li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
   }
 
   .footer a {
-    color: #e8e4df;
+    color: #ccc;
     text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.15s;
   }
 
   .footer a:hover {
     color: #fff;
   }
 
-  .footer-bottom {
-    padding-top: 1.5rem;
+  .footer-cta {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 700;
     font-size: 0.85rem;
-    color: #a8a4a0;
+    color: var(--color-accent) !important;
+  }
+
+  .footer p {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.75rem;
+    font-size: 0.8rem;
+    color: #666;
+    gap: 1rem;
   }
 
   .footer-bottom p {
     margin: 0;
+    font-size: 0.8rem;
+    color: #666;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand-col {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 500px) {
     .footer-grid {
       grid-template-columns: 1fr;
     }

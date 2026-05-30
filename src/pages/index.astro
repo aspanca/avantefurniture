@@ -1,15 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroWords from '../components/HeroWords';
-import SpaceCard from '../components/SpaceCard.astro';
 import { SITE, SPACES } from '../lib/site';
-import { getProjectHref } from '../lib/projects';
 import { getCollection } from 'astro:content';
+import { getProjectHref } from '../lib/projects';
 
 const posts = (await getCollection('posts'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 2);
+  .slice(0, 3);
 
 const allProjects = await getCollection('projects');
 
@@ -27,375 +26,768 @@ const spaceList = Object.values(SPACES);
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
+
+  <!-- ── Hero ── -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <p class="hero-eyebrow reveal">Young team · Bold furniture · Built for real life</p>
-        <HeroWords client:load lines={['We design', 'spaces that move.']} />
-        <p class="hero-lead reveal reveal-delay-1">
-          {SITE.name} is a modern furniture company — kitchens, offices, and sleeping rooms
-          crafted with energy, precision, and care.
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="hero-eyebrow reveal">
+          <span class="dot" aria-hidden="true"></span>
+          Young team · Bold furniture · Built to last
         </p>
-        <div class="hero-actions reveal reveal-delay-2">
+        <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} />
+        <p class="hero-lead reveal reveal-delay-2">
+          Avante crafts kitchens, offices, and bedrooms with energy and precision —
+          from a team that genuinely cares how you live.
+        </p>
+        <div class="hero-actions reveal reveal-delay-3">
           <a href="/contact" class="btn btn-primary">Start a project</a>
-          <a href="/about" class="btn btn-outline">Meet the team</a>
+          <a href="/about" class="btn btn-ghost">Meet the team →</a>
         </div>
       </div>
       <div class="hero-visual reveal reveal-delay-2">
         <img
           src="/images/hero-kitchen.svg"
           alt="Modern kitchen interior by Avante"
-          width="640"
-          height="480"
+          width="680"
+          height="520"
           fetchpriority="high"
         />
-        <div class="hero-float" aria-hidden="true">
-          <span>Est. 2024</span>
-          <strong>Company</strong>
+        <div class="hero-tag reveal reveal-delay-3" aria-hidden="true">
+          <strong>50+</strong>
+          <span>Projects<br>delivered</span>
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="section" aria-labelledby="spaces-heading">
-    <div class="container">
-      <header class="section-header reveal">
-        <p class="section-eyebrow">What we do</p>
-        <h2 id="spaces-heading">Three spaces. One team.</h2>
-        <p>We specialize in the rooms where life and work actually happen.</p>
-      </header>
-      <div class="spaces-grid">
-        {
-          spaceList.map((space, i) => (
-            <SpaceCard
-              title={space.title}
-              headline={space.headline}
-              description={space.description}
-              href={getSpaceHref(space.slug)}
-              image={space.image}
-              accent={space.accent}
-            />
-          ))
-        }
-      </div>
+    <!-- scroll hint -->
+    <div class="hero-scroll" aria-hidden="true">
+      <span class="scroll-line"></span>
+      <span>Scroll</span>
     </div>
   </section>
 
-  <section class="section company-band" aria-labelledby="company-heading">
-    <div class="container company-grid">
-      <div class="reveal">
-        <p class="section-eyebrow">Why Avante</p>
-        <h2 id="company-heading">We're a company — not a catalog.</h2>
-        <p>
-          Our crew is young, hungry, and hands-on. We show up, measure twice, and build furniture
-          that feels alive in your home or office.
+  <!-- ── Spaces ── -->
+  <section class="spaces-section" aria-labelledby="spaces-heading">
+    <div class="container spaces-header reveal">
+      <p class="section-label">What we do</p>
+      <h2 id="spaces-heading">Three spaces.<br>One team.</h2>
+    </div>
+
+    <div class="spaces-strip">
+      {
+        spaceList.map((space, i) => (
+          <a
+            href={getSpaceHref(space.slug)}
+            class="space-strip-item reveal"
+            style={`--accent: ${space.accent}`}
+          >
+            <div class="space-strip-img">
+              <img src={space.image} alt="" width="600" height="800" loading={i === 0 ? 'eager' : 'lazy'} />
+              <div class="space-strip-overlay" />
+            </div>
+            <div class="space-strip-content">
+              <span class="space-strip-num">0{i + 1}</span>
+              <div class="space-strip-text">
+                <h3>{space.title}</h3>
+                <p>{space.headline}</p>
+              </div>
+              <span class="space-strip-cta">View work</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ── Company ── -->
+  <section class="company-section" aria-labelledby="company-heading">
+    <div class="container company-inner">
+      <div class="company-copy reveal">
+        <p class="section-label">Why Avante</p>
+        <h2 id="company-heading">A real company,<br>not a catalog.</h2>
+        <p class="company-lead">
+          Our crew is young, hands-on, and obsessed with getting details right.
+          We show up, measure twice, and build furniture that feels alive.
         </p>
-        <ul class="stats">
-          <li><strong>50+</strong> projects delivered</li>
-          <li><strong>12</strong> designers & craftspeople</li>
-          <li><strong>3</strong> core specialties</li>
-        </ul>
+        <div class="company-stats">
+          <div class="stat reveal reveal-delay-1">
+            <strong>50+</strong>
+            <span>Projects delivered</span>
+          </div>
+          <div class="stat reveal reveal-delay-2">
+            <strong>12</strong>
+            <span>Designers &amp; craftspeople</span>
+          </div>
+          <div class="stat reveal reveal-delay-3">
+            <strong>3</strong>
+            <span>Core specialties</span>
+          </div>
+        </div>
+        <a href="/about" class="btn btn-outline reveal reveal-delay-3">Our story →</a>
       </div>
       <div class="company-visual reveal reveal-delay-1">
-        <img src="/images/team-energy.svg" alt="Avante team at work in the studio" width="520" height="400" loading="lazy" />
+        <img
+          src="/images/team-energy.svg"
+          alt="Avante team at work in the studio"
+          width="520"
+          height="400"
+          loading="lazy"
+        />
       </div>
     </div>
   </section>
 
+  <!-- ── Journal ── -->
   {
     posts.length > 0 && (
-      <section class="section" aria-labelledby="journal-heading">
+      <section class="journal-section" aria-labelledby="journal-heading">
         <div class="container">
-          <header class="section-header reveal">
-            <p class="section-eyebrow">Journal</p>
-            <h2 id="journal-heading">Latest from the studio</h2>
-          </header>
-          <ul class="post-preview-list">
-            {posts.map((post) => (
-              <li class="reveal">
-                <a href={`/blog/${post.slug}`} class="post-preview">
+          <div class="journal-head reveal">
+            <div>
+              <p class="section-label">Journal</p>
+              <h2 id="journal-heading">From the studio</h2>
+            </div>
+            <a href="/blog" class="btn btn-outline">All posts</a>
+          </div>
+          <ul class="journal-list">
+            {posts.map((post, i) => (
+              <li class="reveal" style={`transition-delay: ${i * 0.1}s`}>
+                <a href={`/blog/${post.slug}`} class="journal-card">
                   {post.data.image && (
-                    <img src={post.data.image} alt="" width="120" height="80" loading="lazy" />
+                    <div class="journal-card-img">
+                      <img src={post.data.image} alt="" width="280" height="180" loading="lazy" />
+                    </div>
                   )}
-                  <div>
+                  <div class="journal-card-body">
                     <time datetime={post.data.pubDate.toISOString()}>
                       {post.data.pubDate.toLocaleDateString('en-US', {
                         year: 'numeric',
-                        month: 'long',
+                        month: 'short',
                         day: 'numeric',
                       })}
                     </time>
                     <h3>{post.data.title}</h3>
                     <p>{post.data.description}</p>
                   </div>
+                  <svg class="journal-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </a>
               </li>
             ))}
           </ul>
-          <p class="text-center reveal">
-            <a href="/blog" class="btn btn-outline">Read the journal</a>
-          </p>
         </div>
       </section>
     )
   }
 
-  <section class="cta-band">
-    <div class="container reveal">
-      <h2>Ready to transform your space?</h2>
-      <p>Tell us about your kitchen, office, or bedroom — we'll bring the energy.</p>
-      <a href="/contact" class="btn btn-primary">Get in touch</a>
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="container cta-inner reveal">
+      <p class="section-label">Ready?</p>
+      <h2>Let's build something<br>worth living in.</h2>
+      <div class="cta-actions">
+        <a href="/contact" class="btn btn-primary btn-lg">Start a project</a>
+        <a href="/spaces/kitchen" class="btn btn-ghost-light">Browse our work →</a>
+      </div>
     </div>
   </section>
+
 </BaseLayout>
 
 <style>
-  .hero {
-    padding: 3rem 0 4rem;
+  /* ── Section shared ── */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin: 0 0 0.6rem;
   }
 
-  .hero-grid {
+  /* ── Hero ── */
+  .hero {
+    padding: 3.5rem 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
+    padding-bottom: 3rem;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
   .hero-eyebrow {
-    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-    margin: 0 0 1rem;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    display: inline-block;
+    flex-shrink: 0;
+    animation: pulse-dot 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
   }
 
   .hero-lead {
-    font-size: 1.15rem;
+    font-size: 1.125rem;
     color: var(--color-muted);
-    max-width: 42ch;
+    max-width: 44ch;
+    line-height: 1.65;
     margin: 1.5rem 0 2rem;
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 1rem;
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    transition: gap 0.2s ease, color 0.2s;
+  }
+
+  .btn-ghost:hover {
+    color: var(--color-accent);
+    gap: 0.5rem;
   }
 
   .hero-visual {
     position: relative;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
   }
 
   .hero-visual img {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(26, 26, 26, 0.14);
   }
 
-  .hero-float {
+  .hero-tag {
     position: absolute;
-    bottom: 1.25rem;
-    right: 1.25rem;
+    bottom: -1rem;
+    left: -1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     padding: 1rem 1.25rem;
     background: var(--color-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    text-align: center;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(26, 26, 26, 0.1);
     animation: float 4s ease-in-out infinite;
   }
 
-  .hero-float span {
-    display: block;
+  .hero-tag strong {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .hero-tag span {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-muted);
+    padding-bottom: 1.5rem;
   }
 
-  .hero-float strong {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--color-border));
   }
 
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
+  /* ── Spaces strip ── */
+  .spaces-section {
+    padding: 4rem 0 0;
   }
 
-  .section {
-    padding: 4rem 0;
-  }
-
-  .section-header {
-    text-align: center;
-    max-width: 52ch;
-    margin: 0 auto 3rem;
-  }
-
-  .section-eyebrow {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
-    margin: 0 0 0.5rem;
-  }
-
-  .section-header h2 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin: 0 0 0.75rem;
-  }
-
-  .section-header p {
-    color: var(--color-muted);
-    margin: 0;
-  }
-
-  .spaces-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .spaces-header {
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
     gap: 1.5rem;
   }
 
-  .company-band {
-    background: var(--color-accent-soft);
+  .spaces-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin: 0;
+    line-height: 1.1;
   }
 
-  .company-grid {
+  .spaces-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    min-height: 520px;
+  }
+
+  .space-strip-item {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .space-strip-item:first-child {
+    border-radius: 0 0 0 20px;
+  }
+
+  .space-strip-item:last-child {
+    border-radius: 0 0 20px 0;
+  }
+
+  .space-strip-img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .space-strip-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .space-strip-item:hover .space-strip-img img {
+    transform: scale(1.06);
+  }
+
+  .space-strip-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.85) 0%,
+      rgba(10, 10, 10, 0.2) 55%,
+      rgba(10, 10, 10, 0.05) 100%
+    );
+    transition: background 0.4s ease;
+  }
+
+  .space-strip-item:hover .space-strip-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(10, 10, 10, 0.45) 55%,
+      rgba(10, 10, 10, 0.15) 100%
+    );
+  }
+
+  .space-strip-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.75rem;
+  }
+
+  .space-strip-num {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.1em;
+  }
+
+  .space-strip-text {
+    margin-top: auto;
+  }
+
+  .space-strip-text h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    color: #fff;
+    margin: 0 0 0.35rem;
+  }
+
+  .space-strip-text p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .space-strip-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    padding: 0.55rem 1.1rem;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 999px;
+    align-self: flex-start;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .space-strip-item:hover .space-strip-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Dividers between strips */
+  .space-strip-item + .space-strip-item {
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Company ── */
+  .company-section {
+    padding: 5rem 0;
+  }
+
+  .company-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 4rem;
     align-items: center;
   }
 
-  .company-grid h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0 0 1rem;
-  }
-
-  .company-grid > div > p {
-    color: var(--color-muted);
-    margin: 0 0 1.5rem;
-  }
-
-  .stats {
+  .company-copy {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .stats strong {
+  .company-copy h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  .company-lead {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 44ch;
+    margin: 0 0 2rem;
+  }
+
+  .company-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat strong {
     display: block;
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: 2.25rem;
+    font-weight: 800;
     color: var(--color-accent);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat span {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-weight: 500;
   }
 
   .company-visual {
-    border-radius: var(--radius);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: 0 24px 64px rgba(26, 26, 26, 0.1);
   }
 
   .company-visual img {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
   }
 
-  .post-preview-list {
+  .company-visual:hover img {
+    transform: scale(1.03);
+  }
+
+  /* ── Journal ── */
+  .journal-section {
+    padding: 4rem 0 5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .journal-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .journal-head h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0;
+  }
+
+  .journal-list {
     list-style: none;
-    margin: 0 0 2rem;
+    margin: 0;
     padding: 0;
     display: grid;
-    gap: 1rem;
+    gap: 1px;
+    background: var(--color-border);
+    border-radius: 16px;
+    overflow: hidden;
   }
 
-  .post-preview {
-    display: flex;
-    gap: 1.25rem;
-    padding: 1.25rem;
+  .journal-list li {
     background: var(--color-surface);
-    border-radius: var(--radius);
+  }
+
+  .journal-list li:first-child {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .journal-list li:last-child {
+    border-radius: 0 0 16px 16px;
+  }
+
+  .journal-list li:only-child {
+    border-radius: 16px;
+  }
+
+  .journal-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
     text-decoration: none;
-    box-shadow: var(--shadow);
-    transition: transform var(--transition);
-  }
-
-  .post-preview:hover {
     color: inherit;
-    transform: translateX(6px);
+    transition: background 0.15s;
   }
 
-  .post-preview img {
-    width: 120px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
+  .journal-card:hover {
+    background: rgba(26, 26, 26, 0.02);
+    color: inherit;
+  }
+
+  .journal-card-img {
+    width: 100px;
+    height: 68px;
     flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-border);
   }
 
-  .post-preview time {
-    font-size: 0.8rem;
+  .journal-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .journal-card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .journal-card-body time {
+    font-size: 0.75rem;
     color: var(--color-muted);
+    font-weight: 500;
   }
 
-  .post-preview h3 {
-    margin: 0.25rem 0;
-    font-size: 1.15rem;
+  .journal-card-body h3 {
+    margin: 0.2rem 0 0.3rem;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .post-preview p {
+  .journal-card-body p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--color-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .text-center {
-    text-align: center;
+  .journal-arrow {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    transition: transform 0.2s ease, color 0.15s;
   }
 
-  .cta-band {
-    padding: 4rem 0;
+  .journal-card:hover .journal-arrow {
+    transform: translateX(4px);
+    color: var(--color-accent);
+  }
+
+  /* ── CTA ── */
+  .cta-section {
     background: var(--color-text);
-    color: #fff;
+    padding: 5rem 0;
+  }
+
+  .cta-inner {
     text-align: center;
   }
 
-  .cta-band h2 {
-    margin: 0 0 0.5rem;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  .cta-inner .section-label {
+    color: rgba(232, 93, 4, 0.9);
   }
 
-  .cta-band p {
-    color: #a8a4a0;
-    margin: 0 0 1.5rem;
+  .cta-inner h2 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    color: #fff;
+    margin: 0 0 2rem;
+    line-height: 1.1;
   }
 
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  .btn-ghost-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .btn-ghost-light:hover {
+    color: #fff;
+    gap: 0.5rem;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 900px) {
-    .hero-grid,
-    .company-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .spaces-grid {
+    .hero-inner {
       grid-template-columns: 1fr;
     }
 
     .hero-visual {
       order: -1;
+    }
+
+    .hero-tag {
+      left: auto;
+      right: 1rem;
+      bottom: 1rem;
+    }
+
+    .spaces-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .spaces-strip {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .space-strip-item:first-child,
+    .space-strip-item:last-child {
+      border-radius: 0;
+    }
+
+    .space-strip-item + .space-strip-item {
+      border-left: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .space-strip-content {
+      min-height: 300px;
+    }
+
+    .space-strip-cta {
+      opacity: 1;
+      transform: none;
+    }
+
+    .company-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .journal-card-img {
+      display: none;
     }
   }
 </style>

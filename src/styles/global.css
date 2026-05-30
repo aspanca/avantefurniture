@@ -1,16 +1,17 @@
 :root {
   --color-bg: #faf8f5;
   --color-surface: #ffffff;
-  --color-text: #1a1a1a;
-  --color-muted: #5c5c5c;
+  --color-text: #111111;
+  --color-muted: #666666;
   --color-accent: #e85d04;
   --color-accent-soft: #fff4ed;
   --color-border: #e8e4df;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Syne', system-ui, sans-serif;
-  --radius: 12px;
-  --shadow: 0 4px 24px rgba(26, 26, 26, 0.08);
-  --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(26, 26, 26, 0.07);
+  --shadow-lg: 0 16px 56px rgba(26, 26, 26, 0.12);
+  --transition: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -140,18 +141,40 @@ h3 {
 /* Prose for blog */
 .prose {
   max-width: 65ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
 }
 
 .prose h2 {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  margin-top: 1.75rem;
+  font-size: 1.2rem;
 }
 
 .prose p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.35rem;
+}
+
+.prose li {
+  margin-bottom: 0.4rem;
 }
 
 .prose a {
   color: var(--color-accent);
+}
+
+.prose strong {
+  font-weight: 700;
 }
 
 @media (prefers-reduced-motion: reduce) {
