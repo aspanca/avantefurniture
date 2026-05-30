@@ -54,8 +54,8 @@ const marqueeItems = [
         </p>
         <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} dark={true} />
         <p class="hero-lead reveal reveal-delay-2">
-          Avante crafts kitchens, offices, and bedrooms with energy and precision —
-          from a team that genuinely cares how you live.
+          From a single room to a complete home — Avante delivers end-to-end interior
+          design and furniture with the energy and precision your space deserves.
         </p>
         <div class="hero-actions reveal reveal-delay-3">
           <a href="/contact" class="btn btn-primary">Start a project</a>
@@ -145,11 +145,11 @@ const marqueeItems = [
           <span class="eyebrow-line"></span>
           Our work
         </p>
-        <h2 class="spaces-title">Three spaces.<br>One team.</h2>
+        <h2 class="spaces-title">Every room.<br>One vision.</h2>
       </div>
       <p class="spaces-sub reveal reveal-delay-1">
-        From the kitchen where mornings begin to the office where ideas take shape —
-        we design furniture for the moments that matter.
+        From the kitchen where life begins to the living room where it unfolds —
+        we design and furnish every corner of your home, end to end.
       </p>
     </div>
 
@@ -179,6 +179,39 @@ const marqueeItems = [
           </div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FULL SERVICE
+  ═══════════════════════════════════════ -->
+  <section class="service-section">
+    <div class="container service-inner">
+      <div class="service-head reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          What we do
+        </p>
+        <h2 class="service-title">End-to-end.<br>Every room.</h2>
+        <p class="service-lead">
+          We don't just sell furniture — we design, plan, source, and install
+          complete interiors. One team, one vision, from first sketch to final room.
+        </p>
+      </div>
+
+      <ul class="service-grid">
+        {SERVICES.map((s, i) => (
+          <li class="service-item reveal" style={`transition-delay: ${(i % 4) * 0.07}s`}>
+            <span class="service-dot" aria-hidden="true"></span>
+            {s.label}
+          </li>
+        ))}
+      </ul>
+
+      <div class="service-cta reveal">
+        <a href="/contact" class="btn btn-primary">Get a free consultation</a>
+        <p class="service-note">No commitment. Just a conversation about your space.</p>
+      </div>
     </div>
   </section>
 
@@ -385,13 +418,17 @@ const marqueeItems = [
           </div>
 
           <label class="hc-label">
-            <span>Space</span>
+            <span>What do you need?</span>
             <select name="space" required>
-              <option value="">Select a space…</option>
+              <option value="">Select a room…</option>
               <option value="kitchen">Kitchen</option>
-              <option value="office">Office</option>
+              <option value="living">Living Room</option>
               <option value="bedroom">Bedroom</option>
-              <option value="other">Other / multiple</option>
+              <option value="dining">Dining Room</option>
+              <option value="office">Office / Study</option>
+              <option value="bathroom">Bathroom</option>
+              <option value="complete">Complete Home</option>
+              <option value="other">Other / Multiple</option>
             </select>
           </label>
 
@@ -765,6 +802,93 @@ const marqueeItems = [
   .space-card:hover .space-cta { opacity:1; transform:translateY(0); }
 
   /* ══════════════════════════════════
+     FULL SERVICE
+  ══════════════════════════════════ */
+  .service-section {
+    padding: 5rem 0;
+    background: var(--color-surface);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .service-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .service-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .service-lead {
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 40ch;
+    margin: 1.25rem 0 0;
+  }
+
+  .service-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    align-self: start;
+  }
+
+  .service-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 1.25rem;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .service-item:nth-child(even) { border-right: none; }
+  .service-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .service-item:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+
+  .service-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .service-cta {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .service-note {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* ══════════════════════════════════
      STATS
   ══════════════════════════════════ */
   .stats-section { background:var(--color-dark); padding:6rem 0; }
@@ -1093,6 +1217,7 @@ const marqueeItems = [
     .space-card-body { min-height: 320px; }
     .space-cta { opacity: 1; transform: none; }
 
+    .service-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .stats-inner { grid-template-columns: 1fr; gap: 3rem; }
     .journal-grid { grid-template-columns: 1fr 1fr; }
 

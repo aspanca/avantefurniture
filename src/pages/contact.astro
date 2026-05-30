@@ -50,13 +50,24 @@ import { SITE } from '../lib/site';
         </div>
 
         <label class="form-label">
-          <span>Space type</span>
+          <span>What do you need designed?</span>
           <select name="space" required>
-            <option value="">Select a space…</option>
-            <option value="kitchen">Kitchen</option>
-            <option value="office">Office</option>
-            <option value="bedroom">Bedroom</option>
-            <option value="other">Other / multiple</option>
+            <option value="">Select a room or service…</option>
+            <optgroup label="Rooms">
+              <option value="kitchen">Kitchen</option>
+              <option value="living">Living Room</option>
+              <option value="bedroom">Bedroom</option>
+              <option value="dining">Dining Room</option>
+              <option value="office">Office / Study</option>
+              <option value="bathroom">Bathroom</option>
+              <option value="wardrobe">Wardrobe &amp; Storage</option>
+            </optgroup>
+            <optgroup label="Projects">
+              <option value="complete">Complete Home</option>
+              <option value="apartment">Apartment / Flat</option>
+              <option value="commercial">Commercial Space</option>
+              <option value="other">Other / Multiple Rooms</option>
+            </optgroup>
           </select>
         </label>
 

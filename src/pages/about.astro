@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../lib/site';
+import { SITE, SERVICES } from '../lib/site';
 ---
 
 <BaseLayout
   title="About"
-  description="Meet Avante — a young furniture company with energy, craft, and a focus on kitchens, offices, and bedrooms."
+  description="Avante — a young furniture company delivering end-to-end interior design for every room in your home. Bold design, serious craft."
 >
 
   <!-- ── Hero ── -->
@@ -16,10 +16,11 @@ import { SITE } from '../lib/site';
           <span class="eyebrow-line"></span>
           About us
         </p>
-        <h1 class="about-headline">Young energy.<br>Serious craft.</h1>
+        <h1 class="about-headline">Young energy.<br>Serious craft.<br>Every room.</h1>
         <p class="about-lead">
-          We're {SITE.name} — a furniture company built by people who care how spaces feel,
-          not just how they look.
+          We're {SITE.name} — an interior design and furniture company that takes
+          on every room, every challenge, and every detail. From a single kitchen
+          to a complete home, we build spaces that truly feel like yours.
         </p>
       </div>
       <div class="about-hero-img reveal reveal-delay-2">
@@ -44,14 +45,15 @@ import { SITE } from '../lib/site';
         </p>
         <h2>We started with a simple idea.</h2>
         <p>
-          Furniture should match the pace of modern life. Our team blends design,
-          woodworking, and project management — mostly under 35, all obsessed with
-          getting details right.
+          Furniture should match the pace of modern life — and design should serve
+          the people living in a space, not the other way around. Our team blends
+          design, woodworking, and project management — mostly under 35, all
+          obsessed with getting every detail right.
         </p>
         <p>
-          Whether it's a kitchen that hosts Sunday brunch, an office that scales with
-          your startup, or a bedroom designed for real rest — we treat every project
-          like our reputation depends on it. Because it does.
+          Over time, clients kept asking us for more. A kitchen became a whole ground
+          floor. A bedroom became a full apartment. Today, Avante delivers complete
+          interior experiences — from your first consultation to the final installation.
         </p>
       </div>
       <div class="story-stats reveal reveal-delay-1">
@@ -61,13 +63,39 @@ import { SITE } from '../lib/site';
         </div>
         <div class="story-stat">
           <strong>12</strong>
-          <span>Team members</span>
+          <span>Designers &amp; craftspeople</span>
         </div>
         <div class="story-stat">
-          <strong>3</strong>
-          <span>Core specialties</span>
+          <strong>8+</strong>
+          <span>Room types we design</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ── What We Offer ── -->
+  <section class="offer-section section">
+    <div class="container">
+      <div class="offer-head reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          Full service
+        </p>
+        <h2 class="offer-title">Everything you need,<br>under one roof.</h2>
+        <p class="offer-lead">
+          We handle the entire process — so you don't have to coordinate between
+          a designer, a supplier, and a contractor. One team. One result.
+        </p>
+      </div>
+
+      <ul class="offer-grid">
+        {SERVICES.map((s, i) => (
+          <li class="offer-item reveal" style={`transition-delay: ${(i % 3) * 0.08}s`}>
+            <span class="offer-num">{ String(i + 1).padStart(2, '0') }</span>
+            <span class="offer-label">{s.label}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -75,27 +103,27 @@ import { SITE } from '../lib/site';
   <section class="values-section">
     <div class="container">
       <div class="values-head reveal">
-        <p class="eyebrow">
+        <p class="eyebrow eyebrow--light">
           <span class="eyebrow-line"></span>
           What we stand for
         </p>
-        <h2>Built on principles,<br>not promises.</h2>
+        <h2 class="values-title">Built on principles,<br>not promises.</h2>
       </div>
       <ul class="values-list">
         <li class="value-card reveal reveal-delay-1">
           <span class="value-num">01</span>
-          <strong>Company-first</strong>
-          <p>You work with a real team — designers, builders, project leads — not a faceless store. We put a face behind every project.</p>
+          <strong>End-to-end ownership</strong>
+          <p>We take responsibility for every stage — design, sourcing, installation, and aftercare. You deal with one team, not five contractors.</p>
         </li>
         <li class="value-card reveal reveal-delay-2">
           <span class="value-num">02</span>
           <strong>Young &amp; hungry</strong>
-          <p>Fresh ideas, fast communication, and zero corporate drag. We move quickly and think deeply about every decision.</p>
+          <p>Fresh ideas, fast communication, and zero corporate drag. We move quickly and think deeply about every decision we make for your home.</p>
         </li>
         <li class="value-card reveal reveal-delay-3">
           <span class="value-num">03</span>
           <strong>Built to last</strong>
-          <p>Quality materials and honest construction, every time. We design for the long term — not the trend cycle.</p>
+          <p>Quality materials and honest construction, every time. We design for the long term — not the trend cycle or the fast-turnaround shortcut.</p>
         </li>
       </ul>
     </div>
@@ -107,15 +135,13 @@ import { SITE } from '../lib/site';
       <div>
         <p class="eyebrow eyebrow--light">
           <span class="eyebrow-line"></span>
-          Let's collaborate
+          Ready to start?
         </p>
-        <h2 class="about-cta-heading">Ready to start<br>your project?</h2>
+        <h2 class="about-cta-heading">Let's design your<br>complete home.</h2>
       </div>
       <div class="about-cta-actions">
         <a href="/contact" class="btn btn-primary btn-lg-cta">Work with us</a>
-        <a href="/spaces/kitchen" class="btn btn-ghost-light">
-          See our work →
-        </a>
+        <a href="/spaces/kitchen" class="btn btn-ghost-light">Browse our work →</a>
       </div>
     </div>
   </section>
@@ -124,10 +150,7 @@ import { SITE } from '../lib/site';
 
 <style>
   /* ── Hero ── */
-  .about-hero {
-    padding: 4rem 0;
-    overflow: hidden;
-  }
+  .about-hero { padding: 4rem 0; overflow: hidden; }
 
   .about-hero-inner {
     display: grid;
@@ -143,7 +166,7 @@ import { SITE } from '../lib/site';
   }
 
   .about-lead {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--color-muted);
     max-width: 46ch;
     line-height: 1.65;
@@ -179,18 +202,12 @@ import { SITE } from '../lib/site';
     margin: 0.5rem 0 1.25rem;
   }
 
-  .story-copy p {
-    color: var(--color-muted);
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-  }
-
+  .story-copy p { color: var(--color-muted); line-height: 1.75; margin-bottom: 1.25rem; }
   .story-copy p:last-child { margin-bottom: 0; }
 
   .story-stats {
     display: flex;
     flex-direction: column;
-    gap: 0;
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-border);
@@ -210,9 +227,9 @@ import { SITE } from '../lib/site';
 
   .story-stat strong {
     display: block;
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: 3rem;
-    font-weight: 400;
+    font-weight: 800;
     color: var(--color-accent);
     line-height: 1;
     letter-spacing: -0.03em;
@@ -225,17 +242,70 @@ import { SITE } from '../lib/site';
     font-weight: 500;
   }
 
+  /* ── Full Offer ── */
+  .offer-head { margin-bottom: 3rem; }
+
+  .offer-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .offer-lead {
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 50ch;
+    margin: 1rem 0 0;
+  }
+
+  .offer-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .offer-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    transition: background 0.2s;
+  }
+
+  .offer-item:nth-child(3n) { border-right: none; }
+  .offer-item:nth-last-child(-n+3) { border-bottom: none; }
+  .offer-item:hover { background: var(--color-accent-light); }
+
+  .offer-num {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+
+  .offer-label {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
   /* ── Values ── */
-  .values-section {
-    background: var(--color-dark);
-    padding: 6rem 0;
-  }
+  .values-section { background: var(--color-dark); padding: 6rem 0; }
 
-  .values-head {
-    margin-bottom: 3rem;
-  }
+  .values-head { margin-bottom: 3rem; }
 
-  .values-head h2 {
+  .values-title {
     font-size: clamp(2rem, 4vw, 2.75rem);
     color: var(--color-inverse);
     line-height: 1.1;
@@ -266,9 +336,9 @@ import { SITE } from '../lib/site';
   .value-card:hover { background: var(--color-dark-3); }
 
   .value-num {
-    font-family: var(--font-serif);
+    font-family: var(--font-ui);
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 700;
     color: var(--color-accent);
     letter-spacing: 0.06em;
   }
@@ -284,7 +354,7 @@ import { SITE } from '../lib/site';
 
   .value-card p {
     margin: 0;
-    color: rgba(245, 240, 232, 0.48);
+    color: rgba(228, 238, 236, 0.48);
     font-size: 0.9rem;
     line-height: 1.65;
   }
@@ -318,10 +388,7 @@ import { SITE } from '../lib/site';
     justify-content: flex-end;
   }
 
-  .btn-lg-cta {
-    padding: 1rem 2rem;
-    font-size: 0.9375rem;
-  }
+  .btn-lg-cta { padding: 1rem 2rem; font-size: 0.9375rem; }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
@@ -332,12 +399,21 @@ import { SITE } from '../lib/site';
       gap: 2.5rem;
     }
 
-    .about-cta-actions { justify-content: flex-start; }
+    .offer-grid { grid-template-columns: 1fr 1fr; }
+    .offer-item:nth-child(3n) { border-right: 1px solid var(--color-border); }
+    .offer-item:nth-child(2n) { border-right: none; }
+    .offer-item:nth-last-child(-n+3) { border-bottom: 1px solid var(--color-border); }
+    .offer-item:nth-last-child(-n+2) { border-bottom: none; }
 
     .values-list { grid-template-columns: 1fr; }
+    .about-cta-actions { justify-content: flex-start; }
   }
 
   @media (max-width: 600px) {
+    .offer-grid { grid-template-columns: 1fr; }
+    .offer-item { border-right: none !important; }
+    .offer-item:not(:last-child) { border-bottom: 1px solid var(--color-border) !important; }
+    .offer-item:last-child { border-bottom: none !important; }
     .about-cta-actions { flex-direction: column; align-items: flex-start; }
   }
 </style>
