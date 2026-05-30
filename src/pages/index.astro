@@ -101,12 +101,6 @@ const marqueeItems = [
         <span>Projects<br>delivered</span>
       </div>
 
-      <!-- Status pill -->
-      <div class="hero-status" aria-hidden="true">
-        <span class="status-dot"></span>
-        <span>Available for new projects</span>
-      </div>
-
       <!-- Scroll hint -->
       <div class="hero-scroll-hint" aria-hidden="true">
         <span class="scroll-line"></span>
@@ -637,35 +631,6 @@ const marqueeItems = [
     color: var(--color-muted);
     font-weight: 500;
     line-height: 1.4;
-  }
-
-  /* Status pill */
-  .hero-status {
-    position: absolute;
-    top: 2rem;
-    right: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1rem;
-    background: rgba(38,51,59,0.85);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: rgba(228,238,236,0.9);
-    white-space: nowrap;
-    animation: float 4.5s ease-in-out 1s infinite reverse;
-    z-index: 2;
-  }
-
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #4ade80;
-    flex-shrink: 0;
-    animation: pulse-dot 2.5s ease-in-out infinite;
   }
 
   /* Scroll hint */
