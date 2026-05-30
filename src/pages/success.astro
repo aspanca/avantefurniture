@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Message received"
+  description="Thanks for reaching out — we'll be in touch shortly."
+  noindex={true}
+>
+  <section class="success-page">
+    <div class="container success-inner">
+      <div class="success-mark" aria-hidden="true">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="36" cy="36" r="34" stroke="var(--color-accent)" stroke-width="2"/>
+          <path d="M20 36l11 11 21-21" stroke="var(--color-accent)" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <p class="eyebrow">
+        <span class="eyebrow-line"></span>
+        Message received
+      </p>
+
+      <h1 class="success-heading">We'll be in touch.</h1>
+
+      <p class="success-lead">
+        Thanks for reaching out to {SITE.name}. A real person from our team will
+        reply within one business day.
+      </p>
+
+      <div class="success-actions">
+        <a href="/" class="btn btn-primary">Back to home</a>
+        <a href="/spaces/kitchen" class="btn btn-outline">Browse our work</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .success-page {
+    min-height: calc(80vh - 4rem);
+    display: flex;
+    align-items: center;
+    padding: 5rem 0;
+  }
+
+  .success-inner {
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .success-mark {
+    margin-bottom: 2rem;
+  }
+
+  .success-heading {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin: 0.5rem 0 1.25rem;
+    line-height: 1.1;
+  }
+
+  .success-lead {
+    font-size: 1.1rem;
+    color: var(--color-muted);
+    line-height: 1.7;
+    margin: 0 0 2.5rem;
+    max-width: 44ch;
+  }
+
+  .success-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

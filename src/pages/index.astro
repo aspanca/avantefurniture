@@ -367,6 +367,7 @@ const marqueeItems = [
           id="home-contact-form"
           name="home-contact"
           method="POST"
+          action="/success"
           data-netlify="true"
           netlify-honeypot="bot-field"
         >
@@ -1145,19 +1146,32 @@ const marqueeItems = [
   /* ── Netlify form with JS success state ── */
   const form = document.getElementById('home-contact-form') as HTMLFormElement | null;
   const successEl = document.getElementById('form-success');
+  const submitBtn = form?.querySelector<HTMLButtonElement>('[type="submit"]');
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = new FormData(form);
+    if (!form) return;
+
+    // Disable button while sending
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
+    // Build properly-encoded body (iterate FormData, never pass it directly to URLSearchParams)
+    const body = new URLSearchParams();
+    new FormData(form).forEach((val, key) => body.append(key, val.toString()));
+
     try {
       await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data as any).toString(),
+        body: body.toString(),
       });
+      // Always show inline success — do NOT navigate away
       form.classList.add('is-hidden');
       successEl?.classList.add('is-visible');
     } catch {
+      // Network failure: navigate to the success page (form will submit normally)
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send message'; }
+      form.removeEventListener('submit', () => {});
       form.submit();
     }
   });
