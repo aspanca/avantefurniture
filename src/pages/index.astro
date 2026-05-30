@@ -24,85 +24,121 @@ function getSpaceHref(slug: keyof typeof SPACES) {
 }
 
 const spaceList = Object.values(SPACES);
-
 const marqueeItems = [
   'Kitchens', 'Offices', 'Bedrooms',
-  'Bespoke Design', 'Premium Craft',
-  'Avante', 'Built to Last',
-  'Turning Houses into Homes',
+  'Bespoke Design', 'Premium Craft', 'Avante',
+  'Built to Last', 'Turning Houses into Homes',
 ];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
 
-  <!-- ── Hero ── -->
-  <section class="hero">
-    <div class="container hero-inner">
+  <!-- ═══════════════════════════════════════
+       HERO  — dark cinematic full-screen split
+  ═══════════════════════════════════════ -->
+  <section class="hero" aria-label="Avante hero">
+
+    <!-- Left: dark copy panel -->
+    <div class="hero-left">
+      <!-- Brand mark as huge ghosted BG -->
+      <span class="hero-bg-mark" aria-hidden="true">
+        <svg viewBox="0 0 120 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" fill="currentColor"
+            d="M 0 76 L 66 0 L 120 0 L 120 76 Z M 74 9 L 103 9 L 103 38 L 74 38 Z"/>
+        </svg>
+      </span>
+
       <div class="hero-copy">
-        <p class="eyebrow reveal">
+        <p class="eyebrow eyebrow--light reveal">
           <span class="eyebrow-line"></span>
           {SITE.tagline}
         </p>
-        <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} />
+        <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} dark={true} />
         <p class="hero-lead reveal reveal-delay-2">
           Avante crafts kitchens, offices, and bedrooms with energy and precision —
           from a team that genuinely cares how you live.
         </p>
         <div class="hero-actions reveal reveal-delay-3">
           <a href="/contact" class="btn btn-primary">Start a project</a>
-          <a href="/about" class="btn btn-ghost">
-            Meet the team
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer" class="hero-ig-btn btn-ghost-light">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
             </svg>
+            Instagram
           </a>
         </div>
       </div>
 
-      <div class="hero-visual reveal reveal-delay-1">
-        <div class="hero-img-frame">
-          <img
-            src="/images/hero-kitchen.svg"
-            alt="Modern kitchen interior by Avante"
-            width="680"
-            height="820"
-            fetchpriority="high"
-          />
-        </div>
-        <div class="hero-badge" aria-hidden="true">
-          <strong>50+</strong>
-          <span>Projects<br>delivered</span>
-        </div>
-        <div class="hero-status" aria-hidden="true">
-          <span class="status-dot"></span>
-          <span>Available for new projects</span>
-        </div>
+      <!-- Space chips -->
+      <div class="hero-chips reveal reveal-delay-4">
+        {spaceList.map((space) => (
+          <a href={getSpaceHref(space.slug)} class="space-chip" style={`--accent: ${space.accent}`}>
+            <span class="chip-dot" aria-hidden="true"></span>
+            {space.title}
+          </a>
+        ))}
       </div>
     </div>
 
-    <div class="hero-scroll" aria-hidden="true">
-      <span class="scroll-line"></span>
-      <span class="scroll-label">Scroll</span>
+    <!-- Right: full-bleed image panel -->
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img
+          src="/images/hero-kitchen.svg"
+          alt="Modern kitchen interior designed by Avante"
+          width="900"
+          height="1200"
+          fetchpriority="high"
+          class="hero-img"
+        />
+        <div class="hero-img-overlay" aria-hidden="true"></div>
+      </div>
+
+      <!-- Floating badge -->
+      <div class="hero-badge" aria-hidden="true">
+        <strong>50+</strong>
+        <span>Projects<br>delivered</span>
+      </div>
+
+      <!-- Status pill -->
+      <div class="hero-status" aria-hidden="true">
+        <span class="status-dot"></span>
+        <span>Available for new projects</span>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="hero-scroll-hint" aria-hidden="true">
+        <span class="scroll-line"></span>
+        <span>Scroll</span>
+      </div>
     </div>
   </section>
 
-  <!-- ── Marquee ── -->
-  <Marquee items={marqueeItems} />
+  <!-- ═══════════════════════════════════════
+       MARQUEE
+  ═══════════════════════════════════════ -->
+  <Marquee items={marqueeItems} dark={true} />
 
-  <!-- ── Brand Statement ── -->
+  <!-- ═══════════════════════════════════════
+       BRAND STATEMENT
+  ═══════════════════════════════════════ -->
   <section class="statement-section">
     <div class="container">
       <div class="statement-inner reveal">
-        <span class="statement-num">—</span>
+        <span class="statement-dash" aria-hidden="true">—</span>
         <blockquote class="statement-quote">
           "Turning houses into homes."
-          <cite>Avante</cite>
+          <cite>Avante Furniture</cite>
         </blockquote>
       </div>
     </div>
   </section>
 
-  <!-- ── Spaces ── -->
+  <!-- ═══════════════════════════════════════
+       SPACES
+  ═══════════════════════════════════════ -->
   <section class="spaces-section">
     <div class="container spaces-head">
       <div class="reveal">
@@ -147,7 +183,9 @@ const marqueeItems = [
     </div>
   </section>
 
-  <!-- ── Stats ── -->
+  <!-- ═══════════════════════════════════════
+       STATS
+  ═══════════════════════════════════════ -->
   <section class="stats-section">
     <div class="container stats-inner">
       <div class="stats-copy">
@@ -194,16 +232,15 @@ const marqueeItems = [
     </div>
   </section>
 
-  <!-- ── Journal ── -->
+  <!-- ═══════════════════════════════════════
+       JOURNAL
+  ═══════════════════════════════════════ -->
   {posts.length > 0 && (
     <section class="journal-section">
       <div class="container">
         <div class="journal-head reveal">
           <div>
-            <p class="eyebrow">
-              <span class="eyebrow-line"></span>
-              Journal
-            </p>
+            <p class="eyebrow"><span class="eyebrow-line"></span>Journal</p>
             <h2>From the studio</h2>
           </div>
           <a href="/blog" class="btn btn-outline">All posts →</a>
@@ -212,17 +249,13 @@ const marqueeItems = [
           {posts.map((post, i) => (
             <a href={`/blog/${post.slug}`} class="jcard reveal" style={`transition-delay: ${i * 0.1}s`}>
               <div class="jcard-img">
-                {post.data.image ? (
-                  <img src={post.data.image} alt="" width="480" height="320" loading="lazy" />
-                ) : (
-                  <div class="jcard-placeholder" />
-                )}
+                {post.data.image
+                  ? <img src={post.data.image} alt="" width="480" height="320" loading="lazy" />
+                  : <div class="jcard-placeholder" />}
               </div>
               <div class="jcard-body">
                 <time datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric',
-                  })}
+                  {post.data.pubDate.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}
                 </time>
                 <h3>{post.data.title}</h3>
                 <p>{post.data.description}</p>
@@ -240,14 +273,151 @@ const marqueeItems = [
     </section>
   )}
 
-  <!-- ── CTA ── -->
+  <!-- ═══════════════════════════════════════
+       INSTAGRAM  — prominent social CTA
+  ═══════════════════════════════════════ -->
+  <section class="ig-section">
+    <div class="container ig-inner">
+      <div class="ig-copy reveal">
+        <p class="eyebrow eyebrow--light">
+          <span class="eyebrow-line"></span>
+          Follow the process
+        </p>
+        <h2 class="ig-heading">See our work<br>on Instagram.</h2>
+        <p class="ig-lead">
+          Behind-the-scenes builds, finished spaces, and daily inspiration
+          from our studio in Kosovo.
+        </p>
+        <a
+          href={SITE.social.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary ig-btn"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+          </svg>
+          @avantefurniture
+        </a>
+      </div>
+
+      <div class="ig-visual reveal reveal-delay-1" aria-hidden="true">
+        <div class="ig-grid">
+          {spaceList.map((space, i) => (
+            <div class="ig-tile" style={`--accent: ${space.accent}; --i: ${i}`}>
+              <img src={space.image} alt="" loading="lazy" />
+              <div class="ig-tile-overlay"></div>
+            </div>
+          ))}
+          <div class="ig-handle-card">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>@avantefurniture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CONTACT FORM (Netlify)
+  ═══════════════════════════════════════ -->
+  <section class="home-contact-section">
+    <div class="container home-contact-inner">
+      <div class="hc-copy reveal">
+        <p class="eyebrow eyebrow--light">
+          <span class="eyebrow-line"></span>
+          Get in touch
+        </p>
+        <h2 class="hc-heading">Start your project<br>today.</h2>
+        <p class="hc-lead">
+          Tell us about your space. We respond within one business day —
+          always a real person, never a bot.
+        </p>
+        <div class="hc-contact-links">
+          {SITE.social.whatsapp.map((w) => (
+            <a href={w.href} target="_blank" rel="noopener noreferrer" class="hc-wa">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              {w.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="hc-form-wrap reveal reveal-delay-1">
+        <!-- Success state (hidden by default) -->
+        <div class="form-success" id="form-success" aria-live="polite">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" stroke="var(--color-accent)" stroke-width="2"/>
+            <path d="M14 24l7 7 13-13" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Message received!</h3>
+          <p>We'll be in touch within one business day.</p>
+        </div>
+
+        <form
+          class="hc-form"
+          id="home-contact-form"
+          name="home-contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+        >
+          <input type="hidden" name="form-name" value="home-contact" />
+          <p class="hidden"><label>Skip: <input name="bot-field" /></label></p>
+
+          <div class="hc-row">
+            <label class="hc-label">
+              <span>Name</span>
+              <input type="text" name="name" required autocomplete="name" placeholder="Your name" />
+            </label>
+            <label class="hc-label">
+              <span>Email</span>
+              <input type="email" name="email" required autocomplete="email" placeholder="your@email.com" />
+            </label>
+          </div>
+
+          <label class="hc-label">
+            <span>Space</span>
+            <select name="space" required>
+              <option value="">Select a space…</option>
+              <option value="kitchen">Kitchen</option>
+              <option value="office">Office</option>
+              <option value="bedroom">Bedroom</option>
+              <option value="other">Other / multiple</option>
+            </select>
+          </label>
+
+          <label class="hc-label">
+            <span>Message</span>
+            <textarea name="message" rows="4" required placeholder="Tell us about your project…"></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primary hc-submit">
+            Send message
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
   <section class="cta-section">
     <div class="container cta-inner">
       <div class="cta-copy">
-        <p class="eyebrow eyebrow--light reveal">
-          <span class="eyebrow-line"></span>
-          Ready to begin?
-        </p>
+        <p class="eyebrow eyebrow--light reveal"><span class="eyebrow-line"></span>Ready?</p>
         <h2 class="cta-heading reveal reveal-delay-1">Let's build something<br>worth living in.</h2>
         <p class="cta-lead reveal reveal-delay-2">
           Whether it's a dream kitchen, a productive office, or a peaceful bedroom —
@@ -257,7 +427,7 @@ const marqueeItems = [
       <div class="cta-actions reveal reveal-delay-3">
         <a href="/contact" class="btn btn-primary btn-cta-lg">Start a project</a>
         <a href="/spaces/kitchen" class="btn btn-ghost-light">
-          Browse our work
+          Browse work
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -269,27 +439,47 @@ const marqueeItems = [
 </BaseLayout>
 
 <style>
-  /* ── Hero ── */
+  /* ══════════════════════════════════
+     HERO
+  ══════════════════════════════════ */
   .hero {
-    padding: 3.5rem 0 0;
+    display: grid;
+    grid-template-columns: 52% 48%;
+    min-height: 100dvh;
     overflow: hidden;
   }
 
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    padding-bottom: 3.5rem;
-    min-height: calc(80vh - 4rem);
+  /* ── Left dark panel ── */
+  .hero-left {
+    background: var(--color-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5rem 4rem 3rem;
+    position: relative;
+    overflow: hidden;
   }
 
-  .hero-copy { display: flex; flex-direction: column; }
+  /* Huge ghost mark in background */
+  .hero-bg-mark {
+    position: absolute;
+    bottom: -8%;
+    right: -12%;
+    width: 80%;
+    opacity: 0.04;
+    color: #fff;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-bg-mark svg { width: 100%; height: auto; }
+
+  .hero-copy { position: relative; z-index: 1; }
 
   .hero-lead {
-    font-size: 1.0625rem;
+    font-size: 1rem;
     line-height: 1.7;
-    color: var(--color-muted);
+    color: rgba(228, 238, 236, 0.6);
     max-width: 42ch;
     margin: 1.75rem 0 2rem;
   }
@@ -297,40 +487,103 @@ const marqueeItems = [
   .hero-actions {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1rem;
     flex-wrap: wrap;
   }
 
-  .hero-visual { position: relative; }
-
-  .hero-img-frame {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(26, 37, 48, 0.18);
+  .hero-ig-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
-  .hero-img-frame img {
+  /* Space chips */
+  .hero-chips {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .space-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.9rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(228,238,236,0.7);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .space-chip:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-color: var(--accent, rgba(255,255,255,0.3));
+  }
+
+  .chip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent, var(--color-accent));
+    flex-shrink: 0;
+  }
+
+  /* ── Right image panel ── */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-img {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 8s ease;
+    transition: transform 10s ease;
   }
 
-  .hero-img-frame:hover img { transform: scale(1.03); }
+  .hero-right:hover .hero-img { transform: scale(1.04); }
 
+  .hero-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      rgba(38, 51, 59, 0.55) 0%,
+      rgba(38, 51, 59, 0.1) 60%,
+      transparent 100%
+    );
+  }
+
+  /* Floating badge */
   .hero-badge {
     position: absolute;
-    bottom: -1rem;
-    left: -2rem;
+    bottom: 3rem;
+    left: -1.5rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 1.375rem;
     background: var(--color-surface);
     border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(26, 37, 48, 0.14);
+    box-shadow: 0 8px 40px rgba(26,37,48,0.2);
     animation: float 4.5s ease-in-out infinite;
+    z-index: 2;
   }
 
   .hero-badge strong {
@@ -349,69 +602,65 @@ const marqueeItems = [
     line-height: 1.4;
   }
 
+  /* Status pill */
   .hero-status {
     position: absolute;
-    top: 1.75rem;
-    right: -0.5rem;
+    top: 2rem;
+    right: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.55rem 1rem;
-    background: var(--color-dark);
+    background: rgba(38,51,59,0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 999px;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-inverse);
-    box-shadow: 0 4px 24px rgba(26, 37, 48, 0.2);
+    color: rgba(228,238,236,0.9);
     white-space: nowrap;
     animation: float 4.5s ease-in-out 1s infinite reverse;
+    z-index: 2;
   }
 
   .status-dot {
-    width: 7px;
-    height: 7px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: #4ade80;
     flex-shrink: 0;
     animation: pulse-dot 2.5s ease-in-out infinite;
   }
 
-  .hero-scroll {
+  /* Scroll hint */
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    padding: 2rem 0;
-    font-size: 0.68rem;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    font-family: var(--font-ui);
-    color: var(--color-muted);
+    color: rgba(255,255,255,0.4);
+    z-index: 2;
   }
 
   .scroll-line {
-    width: 1px;
-    height: 44px;
-    background: linear-gradient(to bottom, transparent, var(--color-border));
+    width: 1px; height: 36px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
     animation: scroll-pulse 2.2s ease-in-out infinite;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:.7} }
+  @keyframes scroll-pulse { 0%,100%{opacity:.4;transform:scaleY(.6)} 50%{opacity:1;transform:scaleY(1)} }
 
-  @keyframes pulse-dot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.7; }
-  }
-
-  @keyframes scroll-pulse {
-    0%, 100% { opacity: 0.4; transform: scaleY(0.6); }
-    50% { opacity: 1; transform: scaleY(1); }
-  }
-
-  /* ── Brand Statement ── */
+  /* ══════════════════════════════════
+     STATEMENT
+  ══════════════════════════════════ */
   .statement-section {
     padding: 5rem 0;
     border-top: 1px solid var(--color-border);
@@ -420,18 +669,18 @@ const marqueeItems = [
   .statement-inner {
     display: flex;
     align-items: flex-start;
-    gap: 2.5rem;
+    gap: 2rem;
     max-width: 860px;
   }
 
-  .statement-num {
+  .statement-dash {
     font-family: var(--font-display);
     font-size: 2rem;
     font-weight: 300;
     color: var(--color-accent);
     flex-shrink: 0;
-    line-height: 1;
-    margin-top: 0.4rem;
+    line-height: 1.2;
+    margin-top: 0.3rem;
   }
 
   .statement-quote {
@@ -448,7 +697,7 @@ const marqueeItems = [
   .statement-quote cite {
     display: block;
     font-family: var(--font-ui);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -457,7 +706,9 @@ const marqueeItems = [
     margin-top: 1.25rem;
   }
 
-  /* ── Spaces ── */
+  /* ══════════════════════════════════
+     SPACES
+  ══════════════════════════════════ */
   .spaces-section { padding: 0; }
 
   .spaces-head {
@@ -469,385 +720,386 @@ const marqueeItems = [
     padding-top: 1rem;
   }
 
-  .spaces-title {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    line-height: 1.1;
-    margin-top: 0;
-  }
+  .spaces-title { font-size: clamp(2rem,4vw,2.75rem); line-height:1.1; margin-top:0; }
+  .spaces-sub { color:var(--color-muted); font-size:1rem; line-height:1.65; max-width:44ch; margin:0; align-self:end; }
 
-  .spaces-sub {
-    color: var(--color-muted);
-    font-size: 1rem;
-    line-height: 1.65;
-    max-width: 44ch;
-    margin: 0;
-    align-self: end;
-  }
-
-  .spaces-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    min-height: 580px;
-  }
+  .spaces-strip { display:grid; grid-template-columns:repeat(3,1fr); min-height:580px; }
 
   .space-card {
-    position: relative;
-    display: block;
-    text-decoration: none;
-    overflow: hidden;
-    cursor: pointer;
+    position:relative; display:block; text-decoration:none; overflow:hidden; cursor:pointer;
   }
+  .space-card:first-child { border-radius:0 0 0 var(--radius-xl); }
+  .space-card:last-child  { border-radius:0 0 var(--radius-xl) 0; }
+  .space-card + .space-card { border-left:1px solid rgba(255,255,255,0.06); }
 
-  .space-card:first-child { border-radius: 0 0 0 var(--radius-xl); }
-  .space-card:last-child  { border-radius: 0 0 var(--radius-xl) 0; }
-  .space-card + .space-card { border-left: 1px solid rgba(255,255,255,0.06); }
-
-  .space-card-bg { position: absolute; inset: 0; }
-
-  .space-card-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .space-card:hover .space-card-bg img { transform: scale(1.06); }
+  .space-card-bg { position:absolute; inset:0; }
+  .space-card-bg img { width:100%; height:100%; object-fit:cover; transition:transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+  .space-card:hover .space-card-bg img { transform:scale(1.06); }
 
   .space-card-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(38, 51, 59, 0.92) 0%,
-      rgba(38, 51, 59, 0.22) 52%,
-      rgba(38, 51, 59, 0.04) 100%
-    );
-    transition: background 0.4s;
+    position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(38,51,59,.92) 0%, rgba(38,51,59,.22) 52%, rgba(38,51,59,.04) 100%);
+    transition:background 0.4s;
   }
-
   .space-card:hover .space-card-overlay {
-    background: linear-gradient(
-      to top,
-      rgba(38, 51, 59, 0.96) 0%,
-      rgba(38, 51, 59, 0.46) 55%,
-      rgba(38, 51, 59, 0.12) 100%
-    );
+    background:linear-gradient(to top, rgba(38,51,59,.96) 0%, rgba(38,51,59,.46) 55%, rgba(38,51,59,.12) 100%);
   }
 
   .space-card-body {
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    min-height: 580px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2rem;
+    position:relative; z-index:1; height:100%; min-height:580px;
+    display:flex; flex-direction:column; justify-content:space-between; padding:2rem;
   }
 
-  .space-num {
-    font-family: var(--font-ui);
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.28);
-    letter-spacing: 0.12em;
-  }
-
-  .space-card-text { margin-top: auto; }
-
-  .space-card-text h3 {
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
-    color: #fff;
-    margin: 0 0 0.4rem;
-    line-height: 1.1;
-  }
-
-  .space-card-text p {
-    color: rgba(255,255,255,0.58);
-    font-size: 0.9rem;
-    margin: 0;
-    line-height: 1.5;
-  }
+  .space-num { font-family:var(--font-ui); font-size:.8rem; font-weight:700; color:rgba(255,255,255,.28); letter-spacing:.12em; }
+  .space-card-text { margin-top:auto; }
+  .space-card-text h3 { font-size:clamp(1.6rem,2.5vw,2.25rem); color:#fff; margin:0 0 .4rem; line-height:1.1; }
+  .space-card-text p { color:rgba(255,255,255,.58); font-size:.9rem; margin:0; line-height:1.5; }
 
   .space-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-    padding: 0.55rem 1.1rem;
-    background: var(--accent);
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    font-weight: 600;
-    border-radius: 999px;
-    align-self: flex-start;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    display:inline-flex; align-items:center; gap:.5rem; margin-top:1.25rem;
+    padding:.55rem 1.1rem; background:var(--accent); color:#fff;
+    font-family:var(--font-display); font-size:.8rem; font-weight:600; border-radius:999px;
+    align-self:flex-start; opacity:0; transform:translateY(8px);
+    transition:opacity .25s, transform .25s;
   }
+  .space-card:hover .space-cta { opacity:1; transform:translateY(0); }
 
-  .space-card:hover .space-cta { opacity: 1; transform: translateY(0); }
+  /* ══════════════════════════════════
+     STATS
+  ══════════════════════════════════ */
+  .stats-section { background:var(--color-dark); padding:6rem 0; }
+  .stats-inner { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+  .stats-heading { font-size:clamp(2rem,4vw,2.75rem); color:var(--color-inverse); line-height:1.1; margin-top:.5rem; }
+  .stats-lead { color:var(--color-inverse-muted); font-size:1rem; line-height:1.7; max-width:40ch; margin:1.25rem 0 2rem; }
 
-  /* ── Stats ── */
-  .stats-section {
-    background: var(--color-dark);
-    padding: 6rem 0;
-  }
+  .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(255,255,255,.06); border-radius:var(--radius-lg); overflow:hidden; }
+  .stat-item { background:var(--color-dark-2); padding:2.25rem 2rem; transition:background .25s; }
+  .stat-item:hover { background:var(--color-dark-3); }
+  .stat-item:first-child  { border-radius:var(--radius-lg) 0 0 0; }
+  .stat-item:nth-child(2) { border-radius:0 var(--radius-lg) 0 0; }
+  .stat-item:nth-child(3) { border-radius:0 0 0 var(--radius-lg); }
+  .stat-item:last-child   { border-radius:0 0 var(--radius-lg) 0; }
+  .stat-num-wrap { display:flex; align-items:baseline; gap:.05em; margin-bottom:.5rem; }
+  .stat-num { font-family:var(--font-display); font-size:clamp(2.75rem,4.5vw,4rem); font-weight:800; color:var(--color-inverse); letter-spacing:-.04em; line-height:1; }
+  .stat-suffix { font-family:var(--font-display); font-size:clamp(1.5rem,2.5vw,2.25rem); font-weight:700; color:var(--color-accent); line-height:1; }
+  .stat-item p { margin:0; font-size:.8rem; color:rgba(228,238,236,.38); font-weight:500; letter-spacing:.02em; }
 
-  .stats-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  .stats-heading {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    color: var(--color-inverse);
-    line-height: 1.1;
-    margin-top: 0.5rem;
-  }
-
-  .stats-lead {
-    color: var(--color-inverse-muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 40ch;
-    margin: 1.25rem 0 2rem;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .stat-item {
-    background: var(--color-dark-2);
-    padding: 2.25rem 2rem;
-    transition: background 0.25s;
-  }
-
-  .stat-item:hover { background: var(--color-dark-3); }
-
-  .stat-item:first-child  { border-radius: var(--radius-lg) 0 0 0; }
-  .stat-item:nth-child(2) { border-radius: 0 var(--radius-lg) 0 0; }
-  .stat-item:nth-child(3) { border-radius: 0 0 0 var(--radius-lg); }
-  .stat-item:last-child   { border-radius: 0 0 var(--radius-lg) 0; }
-
-  .stat-num-wrap {
-    display: flex;
-    align-items: baseline;
-    gap: 0.05em;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-num {
-    font-family: var(--font-display);
-    font-size: clamp(2.75rem, 4.5vw, 4rem);
-    font-weight: 800;
-    color: var(--color-inverse);
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-
-  .stat-suffix {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
-    font-weight: 700;
-    color: var(--color-accent);
-    line-height: 1;
-  }
-
-  .stat-item p {
-    margin: 0;
-    font-size: 0.8rem;
-    color: rgba(228, 238, 236, 0.38);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-
-  /* ── Journal ── */
-  .journal-section {
-    padding: 5rem 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .journal-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .journal-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-top: 0.25rem; }
-
-  .journal-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
+  /* ══════════════════════════════════
+     JOURNAL
+  ══════════════════════════════════ */
+  .journal-section { padding:5rem 0; border-top:1px solid var(--color-border); }
+  .journal-head { display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; margin-bottom:2.5rem; }
+  .journal-head h2 { font-size:clamp(1.5rem,3vw,2rem); margin-top:.25rem; }
+  .journal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
 
   .jcard {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+    display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:var(--color-surface); border-radius:var(--radius-lg); overflow:hidden;
+    border:1px solid var(--color-border); transition:transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
   }
+  .jcard:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); color:inherit; }
+  .jcard-img { aspect-ratio:3/2; overflow:hidden; background:var(--color-surface-alt); }
+  .jcard-img img { width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease-out); }
+  .jcard:hover .jcard-img img { transform:scale(1.05); }
+  .jcard-placeholder { width:100%; height:100%; background:linear-gradient(135deg, var(--color-border), var(--color-accent-light)); }
+  .jcard-body { padding:1.5rem; display:flex; flex-direction:column; gap:.35rem; flex:1; }
+  .jcard-body time { font-size:.75rem; color:var(--color-muted); font-weight:500; }
+  .jcard-body h3 { font-size:1.05rem; margin:.1rem 0 .15rem; line-height:1.3; }
+  .jcard-body p { font-size:.875rem; color:var(--color-muted); margin:0; line-height:1.55; flex:1; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .jcard-read { display:inline-flex; align-items:center; gap:.4rem; margin-top:.75rem; font-size:.8rem; font-weight:600; color:var(--color-accent); transition:gap .2s; }
+  .jcard:hover .jcard-read { gap:.6rem; }
 
-  .jcard:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    color: inherit;
-  }
-
-  .jcard-img {
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    background: var(--color-surface-alt);
-  }
-
-  .jcard-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s var(--ease-out);
-  }
-
-  .jcard:hover .jcard-img img { transform: scale(1.05); }
-
-  .jcard-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--color-border), var(--color-accent-light));
-  }
-
-  .jcard-body {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    flex: 1;
-  }
-
-  .jcard-body time {
-    font-size: 0.75rem;
-    color: var(--color-muted);
-    font-weight: 500;
-  }
-
-  .jcard-body h3 {
-    font-size: 1.05rem;
-    margin: 0.1rem 0 0.15rem;
-    line-height: 1.3;
-  }
-
-  .jcard-body p {
-    font-size: 0.875rem;
-    color: var(--color-muted);
-    margin: 0;
-    line-height: 1.55;
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  /* ══════════════════════════════════
+     INSTAGRAM
+  ══════════════════════════════════ */
+  .ig-section {
+    background: var(--color-accent);
+    padding: 5.5rem 0;
     overflow: hidden;
   }
 
-  .jcard-read {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    transition: gap 0.2s ease;
-  }
-
-  .jcard:hover .jcard-read { gap: 0.6rem; }
-
-  /* ── CTA ── */
-  .cta-section {
-    background: var(--color-dark);
-    padding: 7rem 0;
-  }
-
-  .cta-inner {
+  .ig-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
   }
 
-  .cta-heading {
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
+  .ig-copy .eyebrow { color: rgba(255,255,255,0.5); }
+
+  .ig-heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #fff;
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .ig-lead {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 1.25rem 0 2rem;
+    max-width: 40ch;
+  }
+
+  .ig-btn {
+    background: #fff;
+    color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  .ig-btn:hover {
+    background: rgba(255,255,255,0.9);
+    color: var(--color-accent);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  }
+
+  /* Instagram visual grid */
+  .ig-visual { position: relative; }
+
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .ig-tile {
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s var(--ease-out);
+    animation: ig-tile-in 0.6s var(--ease-out) calc(var(--i) * 0.1s) both;
+  }
+
+  @keyframes ig-tile-in {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .ig-tile img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .ig-tile:hover img { transform: scale(1.08); }
+
+  .ig-tile-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(38,51,59,0.5), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .ig-tile:hover .ig-tile-overlay { opacity: 1; }
+
+  .ig-handle-card {
+    background: var(--color-dark);
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    aspect-ratio: 1;
+    color: rgba(255,255,255,0.7);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    grid-column: 3;
+  }
+
+  /* ══════════════════════════════════
+     HOME CONTACT FORM
+  ══════════════════════════════════ */
+  .home-contact-section {
+    background: var(--color-dark);
+    padding: 6rem 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .home-contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .hc-heading {
+    font-size: clamp(2rem, 4vw, 2.75rem);
     color: var(--color-inverse);
     line-height: 1.1;
     margin-top: 0.5rem;
   }
 
-  .cta-lead {
+  .hc-lead {
     color: var(--color-inverse-muted);
     font-size: 1rem;
     line-height: 1.7;
-    max-width: 42ch;
-    margin: 1.25rem 0 0;
+    margin: 1.25rem 0 1.5rem;
+    max-width: 40ch;
   }
 
-  .cta-actions {
+  .hc-contact-links {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
+    gap: 0.6rem;
+  }
+
+  .hc-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(228,238,236,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .hc-wa:hover { color: #fff; }
+
+  /* Form */
+  .hc-form-wrap { position: relative; }
+
+  .form-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    background: var(--color-dark-2);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.08);
   }
 
-  .btn-cta-lg {
-    padding: 1.1rem 2.25rem;
+  .form-success.is-visible { display: flex; }
+
+  .form-success h3 {
+    color: var(--color-inverse);
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .form-success p {
+    color: var(--color-inverse-muted);
+    margin: 0;
+  }
+
+  .hc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .hc-form.is-hidden { display: none; }
+
+  .hc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+
+  .hc-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(228,238,236,0.6);
+    letter-spacing: 0.02em;
+  }
+
+  .hc-form input,
+  .hc-form select,
+  .hc-form textarea {
+    font: inherit;
+    font-family: var(--font-sans);
     font-size: 0.9375rem;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.05);
+    color: var(--color-inverse);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
-  /* ── Responsive ── */
+  .hc-form input::placeholder,
+  .hc-form textarea::placeholder {
+    color: rgba(228,238,236,0.3);
+  }
+
+  .hc-form input:focus,
+  .hc-form select:focus,
+  .hc-form textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(94,125,120,0.2);
+  }
+
+  .hc-form select option { background: var(--color-dark-2); color: var(--color-inverse); }
+  .hc-form textarea { resize: vertical; min-height: 110px; }
+
+  .hc-submit { align-self: flex-start; padding: 0.9rem 1.75rem; }
+
+  .hidden { position: absolute; left: -9999px; }
+
+  /* ══════════════════════════════════
+     CTA
+  ══════════════════════════════════ */
+  .cta-section { background: var(--color-dark); padding: 6rem 0; border-top: 1px solid rgba(255,255,255,0.05); }
+  .cta-inner { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+  .cta-heading { font-size:clamp(2.25rem,5vw,3.5rem); color:var(--color-inverse); line-height:1.1; margin-top:.5rem; }
+  .cta-lead { color:var(--color-inverse-muted); font-size:1rem; line-height:1.7; max-width:42ch; margin:1.25rem 0 0; }
+  .cta-actions { display:flex; flex-direction:column; align-items:flex-start; gap:1.25rem; justify-content:center; }
+  .btn-cta-lg { padding:1.1rem 2.25rem; font-size:.9375rem; }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════ */
+  @media (max-width: 1100px) {
+    .hero-left { padding: 4rem 3rem 3rem; }
+  }
+
   @media (max-width: 900px) {
-    .hero-inner {
+    .hero {
       grid-template-columns: 1fr;
       min-height: auto;
-      gap: 3rem;
     }
 
-    .hero-visual { order: -1; }
-    .hero-badge { left: auto; right: 1rem; bottom: 1rem; }
-    .hero-status { right: 0.5rem; top: 1.25rem; }
+    .hero-left {
+      padding: 4rem 1.5rem 3rem;
+      min-height: 70svh;
+    }
+
+    .hero-right { min-height: 55vw; }
+
+    .hero-badge { left: 1rem; bottom: 1.5rem; }
+    .hero-status { top: 1.25rem; right: 1rem; }
 
     .statement-inner { gap: 1.25rem; }
-
     .spaces-head { grid-template-columns: 1fr; }
 
-    .spaces-strip {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
-
-    .space-card:first-child,
-    .space-card:last-child { border-radius: 0; }
-    .space-card + .space-card { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+    .spaces-strip { grid-template-columns: 1fr; min-height: auto; }
+    .space-card:first-child, .space-card:last-child { border-radius: 0; }
+    .space-card + .space-card { border-left: none; border-top: 1px solid rgba(255,255,255,.06); }
     .space-card-body { min-height: 320px; }
     .space-cta { opacity: 1; transform: none; }
 
     .stats-inner { grid-template-columns: 1fr; gap: 3rem; }
-
     .journal-grid { grid-template-columns: 1fr 1fr; }
+
+    .ig-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .ig-grid { max-width: 400px; }
+
+    .home-contact-inner { grid-template-columns: 1fr; gap: 3rem; }
 
     .cta-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .cta-actions { flex-direction: row; align-items: center; }
@@ -855,43 +1107,58 @@ const marqueeItems = [
 
   @media (max-width: 640px) {
     .stats-grid { grid-template-columns: 1fr; }
-
     .stat-item:first-child  { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
     .stat-item:nth-child(2) { border-radius: 0; }
     .stat-item:nth-child(3) { border-radius: 0; }
     .stat-item:last-child   { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
 
     .journal-grid { grid-template-columns: 1fr; }
+    .hc-row { grid-template-columns: 1fr; }
     .cta-actions { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
 <script>
+  /* ── Stats counter ── */
   function countUp(el: HTMLElement, target: number, duration = 1600) {
     const start = performance.now();
     const update = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = String(Math.round(target * eased));
+      el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
       if (p < 1) requestAnimationFrame(update);
     };
     requestAnimationFrame(update);
   }
-
   const statEls = document.querySelectorAll<HTMLElement>('.stat-num');
   if (statEls.length) {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const el = e.target as HTMLElement;
-            countUp(el, parseInt(el.dataset.count ?? '0', 10));
-            obs.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          countUp(e.target as HTMLElement, parseInt((e.target as HTMLElement).dataset.count ?? '0', 10));
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
     statEls.forEach((el) => obs.observe(el));
   }
+
+  /* ── Netlify form with JS success state ── */
+  const form = document.getElementById('home-contact-form') as HTMLFormElement | null;
+  const successEl = document.getElementById('form-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data as any).toString(),
+      });
+      form.classList.add('is-hidden');
+      successEl?.classList.add('is-visible');
+    } catch {
+      form.submit();
+    }
+  });
 </script>

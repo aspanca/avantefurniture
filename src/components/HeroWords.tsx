@@ -2,15 +2,13 @@ import { motion } from 'framer-motion';
 
 interface Props {
   lines: string[];
+  dark?: boolean;
 }
 
 const container = {
   hidden: {},
   show: {
-    transition: {
-      staggerChildren: 0.14,
-      delayChildren: 0.05,
-    },
+    transition: { staggerChildren: 0.14, delayChildren: 0.05 },
   },
 };
 
@@ -19,14 +17,12 @@ const line = {
   show: {
     opacity: 1,
     y: '0%',
-    transition: {
-      duration: 1.0,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-export default function HeroWords({ lines }: Props) {
+export default function HeroWords({ lines, dark = false }: Props) {
+  const baseColor = dark ? '#ffffff' : 'var(--color-text)';
   return (
     <motion.h1
       className="hero-words"
@@ -51,7 +47,7 @@ export default function HeroWords({ lines }: Props) {
           line-height: 1.0;
           letter-spacing: -0.03em;
           margin: 0.5rem 0 0;
-          color: var(--color-text);
+          color: ${baseColor};
         }
         .hero-line-wrap {
           display: block;
