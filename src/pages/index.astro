@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroWords from '../components/HeroWords';
 import Marquee from '../components/Marquee.astro';
-import { SITE, SPACES } from '../lib/site';
+import { SITE, SPACES, SERVICES } from '../lib/site';
 import { getCollection } from 'astro:content';
 import { getProjectHref } from '../lib/projects';
 
@@ -25,9 +25,8 @@ function getSpaceHref(slug: keyof typeof SPACES) {
 
 const spaceList = Object.values(SPACES);
 const marqueeItems = [
-  'Kitchens', 'Offices', 'Bedrooms',
-  'Bespoke Design', 'Premium Craft', 'Avante',
-  'Built to Last', 'Turning Houses into Homes',
+  'Kitchens', 'Living Rooms', 'Bedrooms', 'Offices', 'Dining Rooms', 'Bathrooms',
+  'Complete Homes', 'End-to-End Design', 'Avante', 'Built to Last', 'Turning Houses into Homes',
 ];
 ---
 

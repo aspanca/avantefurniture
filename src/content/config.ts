@@ -17,7 +17,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['kitchen', 'office', 'bedroom']),
+    category: z.enum(['kitchen', 'living', 'bedroom', 'office', 'dining', 'bathroom', 'wardrobe', 'complete']),
     image: z.string(),
     gallery: z.array(z.string()).optional(),
     featured: z.boolean().default(false),

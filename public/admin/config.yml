@@ -49,9 +49,14 @@ collections:
         name: category
         widget: select
         options:
-          - kitchen
-          - office
-          - bedroom
+          - { label: "Kitchen", value: kitchen }
+          - { label: "Living Room", value: living }
+          - { label: "Bedroom", value: bedroom }
+          - { label: "Office / Study", value: office }
+          - { label: "Dining Room", value: dining }
+          - { label: "Bathroom", value: bathroom }
+          - { label: "Wardrobe & Storage", value: wardrobe }
+          - { label: "Complete Home", value: complete }
       - { label: Image, name: image, widget: image }
       - label: Gallery
         name: gallery
