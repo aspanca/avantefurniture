@@ -3,6 +3,10 @@ title: Welcome to Avante
 description: We're a young furniture company bringing fresh energy to kitchens, offices, and bedrooms.
 pubDate: 2025-05-01
 image: /images/hero-kitchen.svg
+gallery:
+  - /images/hero-office.svg
+  - /images/hero-bedroom.svg
+  - /images/team-energy.svg
 draft: false
 ---
 

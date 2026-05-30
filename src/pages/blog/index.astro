@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { getPostImages } from '../../lib/posts';
 
 const posts = (await getCollection('posts'))
   .filter((p) => !p.data.draft)
@@ -26,28 +27,42 @@ const posts = (await getCollection('posts'))
           <p class="empty reveal">No posts yet — add your first in Netlify CMS at /admin.</p>
         ) : (
           <ul class="blog-list">
-            {posts.map((post) => (
-              <li class="reveal">
-                <article>
-                  <a href={`/blog/${post.slug}`}>
-                    {post.data.image && (
-                      <img src={post.data.image} alt="" width="400" height="240" loading="lazy" />
-                    )}
-                    <div>
-                      <time datetime={post.data.pubDate.toISOString()}>
-                        {post.data.pubDate.toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </time>
-                      <h2>{post.data.title}</h2>
-                      <p>{post.data.description}</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-            ))}
+            {posts.map((post) => {
+              const images = getPostImages(post);
+              const cover = images[0]?.src;
+              const photoCount = images.length;
+
+              return (
+                <li class="reveal">
+                  <article class="blog-card">
+                    <a href={`/blog/${post.slug}`} class="blog-card-link">
+                      <div class="blog-card-media">
+                        {cover ? (
+                          <img src={cover} alt="" width="400" height="240" loading="lazy" />
+                        ) : (
+                          <div class="blog-card-placeholder" aria-hidden="true" />
+                        )}
+                        {photoCount > 1 && (
+                          <span class="photo-badge">{photoCount} photos</span>
+                        )}
+                      </div>
+                      <div class="blog-card-body">
+                        <time datetime={post.data.pubDate.toISOString()}>
+                          {post.data.pubDate.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </time>
+                        <h2>{post.data.title}</h2>
+                        <p class="blog-card-desc">{post.data.description}</p>
+                        <span class="read-more">View post →</span>
+                      </div>
+                    </a>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
         )
       }
@@ -78,43 +93,85 @@ const posts = (await getCollection('posts'))
     gap: 1.5rem;
   }
 
-  .blog-list a {
+  .blog-card-link {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: minmax(200px, 280px) 1fr;
     gap: 1.5rem;
     text-decoration: none;
-    padding: 1.5rem;
+    padding: 1.25rem;
     background: var(--color-surface);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    transition: transform var(--transition);
+    transition: transform var(--transition), box-shadow var(--transition);
   }
 
-  .blog-list a:hover {
+  .blog-card-link:hover {
     color: inherit;
     transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26, 26, 26, 0.12);
   }
 
-  .blog-list img {
+  .blog-card-media {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .blog-card-media img {
     width: 100%;
     aspect-ratio: 5 / 3;
     object-fit: cover;
-    border-radius: 8px;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .blog-list time {
+  .blog-card-link:hover .blog-card-media img {
+    transform: scale(1.04);
+  }
+
+  .blog-card-placeholder {
+    aspect-ratio: 5 / 3;
+    background: linear-gradient(135deg, var(--color-border), var(--color-accent-soft));
+  }
+
+  .photo-badge {
+    position: absolute;
+    bottom: 0.65rem;
+    right: 0.65rem;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(26, 26, 26, 0.75);
+    color: #fff;
+    border-radius: 999px;
+  }
+
+  .blog-card-body time {
     font-size: 0.8rem;
     color: var(--color-muted);
   }
 
-  .blog-list h2 {
-    margin: 0.35rem 0;
+  .blog-card-body h2 {
+    margin: 0.35rem 0 0.5rem;
     font-size: 1.35rem;
   }
 
-  .blog-list p {
-    margin: 0;
+  .blog-card-desc {
+    margin: 0 0 1rem;
     color: var(--color-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .read-more {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent);
   }
 
   .empty {
@@ -123,8 +180,8 @@ const posts = (await getCollection('posts'))
     padding: 3rem;
   }
 
-  @media (max-width: 600px) {
-    .blog-list a {
+  @media (max-width: 700px) {
+    .blog-card-link {
       grid-template-columns: 1fr;
     }
   }

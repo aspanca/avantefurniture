@@ -1,0 +1,231 @@
+---
+interface ImageItem {
+  src: string;
+  alt?: string;
+}
+
+interface Props {
+  images: ImageItem[];
+  label?: string;
+}
+
+const { images, label = 'Photo gallery' } = Astro.props;
+const carouselId = `carousel-${images[0]?.src?.replace(/[^\w-]/g, '').slice(-24) || 'gallery'}`;
+const showControls = images.length > 1;
+---
+
+{
+  images.length > 0 && (
+    <section
+      class="carousel"
+      aria-roledescription="carousel"
+      aria-label={label}
+      data-carousel={carouselId}
+    >
+      <div class="carousel-viewport" tabindex="0">
+        <ul class="carousel-track">
+          {images.map((img, i) => (
+            <li class="carousel-slide" aria-hidden={i !== 0 ? 'true' : 'false'}>
+              <img src={img.src} alt={img.alt ?? ''} width="1200" height="675" loading={i === 0 ? 'eager' : 'lazy'} />
+            </li>
+          ))}
+        </ul>
+        {showControls && (
+          <>
+            <button type="button" class="carousel-btn carousel-prev" aria-label="Previous image" data-dir="-1">
+              ‹
+            </button>
+            <button type="button" class="carousel-btn carousel-next" aria-label="Next image" data-dir="1">
+              ›
+            </button>
+          </>
+        )}
+      </div>
+      {showControls && (
+        <div class="carousel-footer">
+          <div class="carousel-dots" role="tablist" aria-label="Choose slide">
+            {images.map((_, i) => (
+              <button
+                type="button"
+                class:list={['carousel-dot', { active: i === 0 }]}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-label={`Image ${i + 1} of ${images.length}`}
+                data-index={i}
+              />
+            ))}
+          </div>
+          <p class="carousel-counter">
+            <span data-current>1</span> / {images.length}
+          </p>
+        </div>
+      )}
+    </section>
+  )
+}
+
+<script>
+  document.querySelectorAll('[data-carousel]').forEach((root) => {
+    const track = root.querySelector('.carousel-track');
+    const slides = root.querySelectorAll('.carousel-slide');
+    const dots = root.querySelectorAll('.carousel-dot');
+    const counter = root.querySelector('[data-current]');
+    if (!track || slides.length === 0) return;
+
+    let index = 0;
+
+    function goTo(i) {
+      index = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((slide, n) => {
+        slide.setAttribute('aria-hidden', n !== index ? 'true' : 'false');
+      });
+      dots.forEach((dot, n) => {
+        dot.classList.toggle('active', n === index);
+        dot.setAttribute('aria-selected', n === index ? 'true' : 'false');
+      });
+      if (counter) counter.textContent = String(index + 1);
+    }
+
+    root.querySelectorAll('[data-dir]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        goTo(index + Number(btn.getAttribute('data-dir')));
+      });
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        goTo(Number(dot.getAttribute('data-index')));
+      });
+    });
+
+    root.querySelector('.carousel-viewport')?.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goTo(index - 1);
+      if (e.key === 'ArrowRight') goTo(index + 1);
+    });
+
+    let touchStartX = 0;
+    root.addEventListener(
+      'touchstart',
+      (e) => {
+        touchStartX = e.touches[0].clientX;
+      },
+      { passive: true }
+    );
+    root.addEventListener(
+      'touchend',
+      (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(index + (diff > 0 ? 1 : -1));
+      },
+      { passive: true }
+    );
+  });
+</script>
+
+<style>
+  .carousel {
+    margin-bottom: 2rem;
+  }
+
+  .carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--color-text);
+    box-shadow: var(--shadow);
+    outline: none;
+  }
+
+  .carousel-viewport:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .carousel-track {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    margin: 0;
+  }
+
+  .carousel-slide img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.75rem;
+    height: 2.75rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-text);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 2;
+  }
+
+  .carousel-btn:hover {
+    transform: translateY(-50%) scale(1.05);
+    background: #fff;
+  }
+
+  .carousel-prev {
+    left: 1rem;
+  }
+
+  .carousel-next {
+    right: 1rem;
+  }
+
+  .carousel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    gap: 1rem;
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .carousel-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-border);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .carousel-dot.active {
+    background: var(--color-accent);
+    transform: scale(1.25);
+  }
+
+  .carousel-counter {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+</style>
