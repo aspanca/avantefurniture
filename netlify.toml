@@ -1,0 +1,19 @@
+# Netlify project: avante-website
+# Site ID: 18223a9f-6f76-4774-8d82-0c71d77e837c
+# Dashboard: https://app.netlify.com/projects/avante-website
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

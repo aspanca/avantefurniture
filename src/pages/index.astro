@@ -1,0 +1,388 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroWords from '../components/HeroWords';
+import SpaceCard from '../components/SpaceCard.astro';
+import { SITE, SPACES } from '../lib/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+
+const spaceList = Object.values(SPACES);
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <p class="hero-eyebrow reveal">Young team · Bold furniture · Built for real life</p>
+        <HeroWords client:load lines={['We design', 'spaces that move.']} />
+        <p class="hero-lead reveal reveal-delay-1">
+          {SITE.name} is a modern furniture company — kitchens, offices, and sleeping rooms
+          crafted with energy, precision, and care.
+        </p>
+        <div class="hero-actions reveal reveal-delay-2">
+          <a href="/contact" class="btn btn-primary">Start a project</a>
+          <a href="/about" class="btn btn-outline">Meet the team</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal reveal-delay-2">
+        <img
+          src="/images/hero-kitchen.svg"
+          alt="Modern kitchen interior by Avante"
+          width="640"
+          height="480"
+          fetchpriority="high"
+        />
+        <div class="hero-float" aria-hidden="true">
+          <span>Est. 2024</span>
+          <strong>Company</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="spaces-heading">
+    <div class="container">
+      <header class="section-header reveal">
+        <p class="section-eyebrow">What we do</p>
+        <h2 id="spaces-heading">Three spaces. One team.</h2>
+        <p>We specialize in the rooms where life and work actually happen.</p>
+      </header>
+      <div class="spaces-grid">
+        {
+          spaceList.map((space, i) => (
+            <SpaceCard
+              title={space.title}
+              headline={space.headline}
+              description={space.description}
+              href={`/spaces/${space.slug}`}
+              image={space.image}
+              accent={space.accent}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section company-band" aria-labelledby="company-heading">
+    <div class="container company-grid">
+      <div class="reveal">
+        <p class="section-eyebrow">Why Avante</p>
+        <h2 id="company-heading">We're a company — not a catalog.</h2>
+        <p>
+          Our crew is young, hungry, and hands-on. We show up, measure twice, and build furniture
+          that feels alive in your home or office.
+        </p>
+        <ul class="stats">
+          <li><strong>50+</strong> projects delivered</li>
+          <li><strong>12</strong> designers & craftspeople</li>
+          <li><strong>3</strong> core specialties</li>
+        </ul>
+      </div>
+      <div class="company-visual reveal reveal-delay-1">
+        <img src="/images/team-energy.svg" alt="Avante team at work in the studio" width="520" height="400" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section" aria-labelledby="journal-heading">
+        <div class="container">
+          <header class="section-header reveal">
+            <p class="section-eyebrow">Journal</p>
+            <h2 id="journal-heading">Latest from the studio</h2>
+          </header>
+          <ul class="post-preview-list">
+            {posts.map((post) => (
+              <li class="reveal">
+                <a href={`/blog/${post.slug}`} class="post-preview">
+                  {post.data.image && (
+                    <img src={post.data.image} alt="" width="120" height="80" loading="lazy" />
+                  )}
+                  <div>
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {post.data.pubDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                    <h3>{post.data.title}</h3>
+                    <p>{post.data.description}</p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="text-center reveal">
+            <a href="/blog" class="btn btn-outline">Read the journal</a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="cta-band">
+    <div class="container reveal">
+      <h2>Ready to transform your space?</h2>
+      <p>Tell us about your kitchen, office, or bedroom — we'll bring the energy.</p>
+      <a href="/contact" class="btn btn-primary">Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: 3rem 0 4rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin: 0 0 1rem;
+  }
+
+  .hero-lead {
+    font-size: 1.15rem;
+    color: var(--color-muted);
+    max-width: 42ch;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .hero-visual {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .hero-visual img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .hero-float {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .hero-float span {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+
+  .hero-float strong {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 52ch;
+    margin: 0 auto 3rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin: 0 0 0.5rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin: 0 0 0.75rem;
+  }
+
+  .section-header p {
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .company-band {
+    background: var(--color-accent-soft);
+  }
+
+  .company-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .company-grid h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 1rem;
+  }
+
+  .company-grid > div > p {
+    color: var(--color-muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .stats strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-accent);
+  }
+
+  .company-visual {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .company-visual img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .post-preview-list {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .post-preview {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition);
+  }
+
+  .post-preview:hover {
+    color: inherit;
+    transform: translateX(6px);
+  }
+
+  .post-preview img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .post-preview time {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .post-preview h3 {
+    margin: 0.25rem 0;
+    font-size: 1.15rem;
+  }
+
+  .post-preview p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .cta-band {
+    padding: 4rem 0;
+    background: var(--color-text);
+    color: #fff;
+    text-align: center;
+  }
+
+  .cta-band h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .cta-band p {
+    color: #a8a4a0;
+    margin: 0 0 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid,
+    .company-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .spaces-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-visual {
+      order: -1;
+    }
+  }
+</style>

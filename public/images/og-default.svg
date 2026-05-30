@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Avante Furniture">
+  <rect width="1200" height="630" fill="#faf8f5"/>
+  <rect x="60" y="60" width="80" height="80" rx="12" fill="#e85d04"/>
+  <text x="100" y="115" text-anchor="middle" fill="white" font-family="system-ui,sans-serif" font-size="42" font-weight="800">A</text>
+  <text x="180" y="115" fill="#1a1a1a" font-family="system-ui,sans-serif" font-size="56" font-weight="800">Avante</text>
+  <text x="60" y="200" fill="#5c5c5c" font-family="system-ui,sans-serif" font-size="32">Furniture with young energy</text>
+</svg>

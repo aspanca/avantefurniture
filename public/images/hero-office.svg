@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Modern office">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1b4332"/>
+      <stop offset="100%" style="stop-color:#2d6a4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="100" y="300" width="350" height="8" fill="#95d5b2" opacity="0.5"/>
+  <rect x="100" y="380" width="350" height="8" fill="#95d5b2" opacity="0.4"/>
+  <rect x="500" y="250" width="600" height="400" fill="#d8f3dc" opacity="0.12" rx="16"/>
+  <rect x="750" y="180" width="200" height="120" fill="#e85d04" opacity="0.35" rx="8"/>
+  <text x="600" y="420" text-anchor="middle" fill="#d8f3dc" font-family="system-ui,sans-serif" font-size="48" font-weight="600" opacity="0.9">Office</text>
+</svg>

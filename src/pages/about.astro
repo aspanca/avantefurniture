@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="About"
+  description="Meet Avante — a young furniture company with energy, craft, and a focus on kitchens, offices, and bedrooms."
+>
+  <section class="page-hero">
+    <div class="container reveal">
+      <p class="section-eyebrow">About us</p>
+      <h1>Young energy. Serious craft.</h1>
+      <p class="lead">
+        We're {SITE.name} — a furniture company built by people who care how spaces feel, not
+        just how they look.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div class="reveal">
+        <h2>Our story</h2>
+        <p>
+          We started with a simple idea: furniture should match the pace of modern life. Our team
+          blends design, woodworking, and project management — mostly under 35, all obsessed with
+          getting details right.
+        </p>
+        <p>
+          Whether it's a kitchen that hosts Sunday brunch, an office that scales with your startup,
+          or a bedroom designed for real rest — we treat every project like our reputation depends
+          on it. Because it does.
+        </p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <img src="/images/team-energy.svg" alt="Avante team collaborating" width="560" height="420" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section values">
+    <div class="container">
+      <h2 class="reveal">What we stand for</h2>
+      <ul class="values-list">
+        <li class="reveal reveal-delay-1">
+          <strong>Company-first</strong>
+          <p>You work with a real team — designers, builders, project leads — not a faceless store.</p>
+        </li>
+        <li class="reveal reveal-delay-2">
+          <strong>Young & hungry</strong>
+          <p>Fresh ideas, fast communication, and zero corporate drag.</p>
+        </li>
+        <li class="reveal reveal-delay-3">
+          <strong>Built to last</strong>
+          <p>Quality materials and honest construction, every time.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-inline container reveal">
+    <a href="/contact" class="btn btn-primary">Work with us</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 3rem 0 2rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    max-width: 55ch;
+    margin: 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-grid img {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+  }
+
+  .values {
+    background: var(--color-surface);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .values h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .values-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .values-list strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .values-list p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .cta-inline {
+    padding: 3rem 0 4rem;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid,
+    .values-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

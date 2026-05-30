@@ -1,0 +1,76 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="project-grid">
+  {
+    projects.map((project) => (
+      <li class="project-item reveal">
+        <figure>
+          <img
+            src={project.data.image}
+            alt={project.data.title}
+            width="480"
+            height="320"
+            loading="lazy"
+          />
+          <figcaption>
+            <h3>{project.data.title}</h3>
+            <p>{project.data.description}</p>
+          </figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .project-item figure {
+    margin: 0;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition);
+  }
+
+  .project-item:hover figure {
+    transform: translateY(-4px);
+  }
+
+  .project-item img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .project-item figcaption {
+    padding: 1.25rem;
+  }
+
+  .project-item h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+  }
+
+  .project-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>

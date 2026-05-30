@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { SPACES } from '../../lib/site';
+import { getCollection } from 'astro:content';
+
+export function getStaticPaths() {
+  return Object.keys(SPACES).map((space) => ({
+    params: { space },
+  }));
+}
+
+const { space } = Astro.params;
+const config = SPACES[space as keyof typeof SPACES];
+
+if (!config) {
+  return Astro.redirect('/404');
+}
+
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .filter((p) => p.data.category === space)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title={config.title}
+  description={config.description}
+  image={config.image}
+>
+  <section class="space-hero" style={`--accent: ${config.accent}`}>
+    <div class="container space-hero-grid">
+      <div class="reveal">
+        <p class="section-eyebrow">{config.title}</p>
+        <h1>{config.headline}</h1>
+        <p class="lead">{config.description}</p>
+        <a href="/contact" class="btn btn-primary">Request a quote</a>
+      </div>
+      <div class="space-hero-img reveal reveal-delay-1">
+        <img src={config.image} alt={`${config.title} furniture by Avante`} width="640" height="480" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="reveal">Featured work</h2>
+      {
+        projects.length > 0 ? (
+          <ProjectGrid projects={projects} />
+        ) : (
+          <p class="empty reveal">Projects coming soon.</p>
+        )
+      }
+    </div>
+  </section>
+
+  <nav class="container space-nav reveal" aria-label="Other spaces">
+    {
+      Object.values(SPACES)
+        .filter((s) => s.slug !== space)
+        .map((s) => (
+          <a href={`/spaces/${s.slug}`} class="space-nav-link">
+            Explore {s.title} →
+          </a>
+        ))
+    }
+  </nav>
+</BaseLayout>
+
+<style>
+  .space-hero {
+    padding: 3rem 0;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent);
+  }
+
+  .space-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .space-hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    color: var(--color-muted);
+    margin: 0 0 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .space-hero-img {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .space-hero-img img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .section h2 {
+    margin-bottom: 2rem;
+  }
+
+  .empty {
+    color: var(--color-muted);
+  }
+
+  .space-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .space-nav-link {
+    font-weight: 600;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition);
+  }
+
+  .space-nav-link:hover {
+    transform: translateY(-3px);
+  }
+
+  @media (max-width: 768px) {
+    .space-hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

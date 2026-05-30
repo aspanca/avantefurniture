@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+import { SITE } from '../lib/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const { title, description, image, type, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <SEO title={title} description={description} image={image} type={type} noindex={noindex} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <ScrollReveal />
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+</style>

@@ -1,0 +1,129 @@
+---
+import { SITE, NAV } from '../lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-brand">{SITE.name}</p>
+      <p class="footer-tagline">{SITE.tagline}</p>
+      <p class="footer-desc">{SITE.description}</p>
+    </div>
+    <div>
+      <p class="footer-heading">Explore</p>
+      <ul>
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Get in touch</p>
+      <p>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+      <p>
+        <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a>
+      </p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', (user) => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
+</script>
+
+<style>
+  .footer {
+    margin-top: 5rem;
+    padding: 3rem 0 2rem;
+    background: var(--color-text);
+    color: #e8e4df;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
+  }
+
+  .footer-tagline {
+    color: var(--color-accent);
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  .footer-desc {
+    color: #a8a4a0;
+    font-size: 0.9rem;
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  .footer-heading {
+    font-weight: 700;
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer a {
+    color: #e8e4df;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: #fff;
+  }
+
+  .footer-bottom {
+    padding-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #a8a4a0;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

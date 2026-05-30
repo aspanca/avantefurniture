@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Avante for kitchen, office, and bedroom furniture projects."
+>
+  <section class="page-hero">
+    <div class="container reveal">
+      <p class="section-eyebrow">Contact</p>
+      <h1>Let's talk about your space</h1>
+      <p class="lead">Tell us what you're building — we'll reply within one business day.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hidden">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+        <label>
+          Name
+          <input type="text" name="name" required autocomplete="name" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required autocomplete="email" />
+        </label>
+        <label>
+          Space type
+          <select name="space" required>
+            <option value="">Select…</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="office">Office</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="other">Other / multiple</option>
+          </select>
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="5" required placeholder="Tell us about your project…"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </form>
+
+      <aside class="contact-info reveal reveal-delay-1">
+        <h2>Direct</h2>
+        <p>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+        <p>
+          <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a>
+        </p>
+        <h2>Studio hours</h2>
+        <p>Mon – Fri, 9am – 6pm</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 3rem 0 1rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.75rem;
+  }
+
+  .lead {
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 1.25rem;
+    padding: 2rem;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .contact-form label {
+    display: grid;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    font: inherit;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg);
+  }
+
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .hidden {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .contact-info h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact-info p {
+    margin: 0 0 1.5rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
