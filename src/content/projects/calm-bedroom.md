@@ -3,6 +3,8 @@ title: Calm Bedroom
 description: Soft textures, hidden storage, and a rest-first layout for better sleep.
 category: bedroom
 image: /images/hero-bedroom.svg
+gallery:
+  - /images/hero-kitchen.svg
 featured: true
 order: 3
 ---

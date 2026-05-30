@@ -53,6 +53,12 @@ collections:
           - office
           - bedroom
       - { label: Image, name: image, widget: image }
+      - label: Gallery
+        name: gallery
+        widget: list
+        required: false
+        summary: "{{fields.image}}"
+        field: { label: Image, name: image, widget: image }
       - { label: Featured, name: featured, widget: boolean, default: false }
       - { label: Sort Order, name: order, widget: number, default: 0 }
       - { label: Details, name: body, widget: markdown, required: false }

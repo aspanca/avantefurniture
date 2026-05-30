@@ -3,12 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroWords from '../components/HeroWords';
 import SpaceCard from '../components/SpaceCard.astro';
 import { SITE, SPACES } from '../lib/site';
+import { getProjectHref } from '../lib/projects';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 2);
+
+const allProjects = await getCollection('projects');
+
+function getSpaceHref(slug: keyof typeof SPACES) {
+  const project = allProjects
+    .filter((p) => p.data.category === slug)
+    .sort((a, b) => {
+      if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+      return a.data.order - b.data.order;
+    })[0];
+  return project ? getProjectHref(project) : `/spaces/${slug}`;
+}
 
 const spaceList = Object.values(SPACES);
 ---
@@ -58,7 +71,7 @@ const spaceList = Object.values(SPACES);
               title={space.title}
               headline={space.headline}
               description={space.description}
-              href={`/spaces/${space.slug}`}
+              href={getSpaceHref(space.slug)}
               image={space.image}
               accent={space.accent}
             />

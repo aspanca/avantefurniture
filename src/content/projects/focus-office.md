@@ -3,6 +3,8 @@ title: Focus Office
 description: Acoustic panels, sit-stand desks, and collaborative zones for a growing startup.
 category: office
 image: /images/hero-office.svg
+gallery:
+  - /images/hero-bedroom.svg
 featured: true
 order: 2
 ---

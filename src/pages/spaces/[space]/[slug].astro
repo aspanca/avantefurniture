@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ImageCarousel from '../../../components/ImageCarousel.astro';
+import { SPACES } from '../../../lib/site';
+import { getProjectImages, getSpaceLabel } from '../../../lib/projects';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { space: project.data.category, slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { space, slug } = Astro.params;
+const spaceConfig = SPACES[space as keyof typeof SPACES];
+
+if (!spaceConfig || project.data.category !== space || project.slug !== slug) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await project.render();
+const images = getProjectImages(project);
+const spaceLabel = getSpaceLabel(project.data.category);
+---
+
+<BaseLayout
+  title={project.data.title}
+  description={project.data.description}
+  image={project.data.image}
+>
+  <article class="project-article">
+    <header class="project-hero reveal">
+      <div class="container project-hero-inner">
+        <a href={`/spaces/${space}`} class="back-link">← {spaceLabel}</a>
+        <p class="project-category" style={`color: ${spaceConfig.accent}`}>{spaceLabel}</p>
+        <h1>{project.data.title}</h1>
+      </div>
+    </header>
+
+    {
+      images.length > 0 && (
+        <div class="container reveal">
+          <ImageCarousel images={images} label={`Photos of ${project.data.title}`} />
+        </div>
+      )
+    }
+
+    <div class="container project-layout reveal">
+      <aside class="project-sidebar">
+        <div class="project-summary-card" style={`--accent-soft: color-mix(in srgb, ${spaceConfig.accent} 12%, transparent)`}>
+          <p class="summary-label">Overview</p>
+          <p class="summary-text">{project.data.description}</p>
+        </div>
+        <dl class="project-meta">
+          <div>
+            <dt>Space</dt>
+            <dd>{spaceLabel}</dd>
+          </div>
+          {
+            images.length > 1 && (
+              <div>
+                <dt>Photos</dt>
+                <dd>{images.length} images</dd>
+              </div>
+            )
+          }
+        </dl>
+        <a href="/contact" class="btn btn-primary">Request a quote</a>
+        <a href={`/spaces/${space}`} class="btn btn-outline">More {spaceLabel.toLowerCase()}</a>
+      </aside>
+
+      <div class="project-body">
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-article {
+    padding-bottom: 4rem;
+  }
+
+  .project-hero {
+    padding: 3rem 0 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2rem;
+  }
+
+  .project-hero-inner {
+    max-width: 720px;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .project-category {
+    margin: 0 0 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .project-hero h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0;
+  }
+
+  .project-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .project-summary-card {
+    padding: 1.25rem;
+    background: var(--accent-soft, var(--color-accent-soft));
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+  }
+
+  .summary-label {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+
+  .summary-text {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .project-meta {
+    margin: 0 0 1.5rem;
+  }
+
+  .project-meta div {
+    margin-bottom: 1rem;
+  }
+
+  .project-meta dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .project-meta dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .project-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-body {
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .project-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .project-sidebar {
+      order: -1;
+    }
+  }
+</style>

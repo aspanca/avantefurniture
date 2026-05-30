@@ -19,6 +19,7 @@ const projects = defineCollection({
     description: z.string(),
     category: z.enum(['kitchen', 'office', 'bedroom']),
     image: z.string(),
+    gallery: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
     order: z.number().default(0),
   }),
