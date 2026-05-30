@@ -6,6 +6,13 @@
   command = "npm run build"
   publish = "dist"
 
+# Force HTTPS once the TLS certificate is active on the custom domain
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
