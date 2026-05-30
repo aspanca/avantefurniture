@@ -4,8 +4,21 @@ export const SITE = {
   description:
     'Avante is a modern furniture company specializing in kitchens, offices, and sleeping rooms. Young team, bold design, built to last.',
   url: 'https://avantefurniture.com',
-  email: 'hello@avantefurniture.com',
-  phone: '+1 (555) 012-3456',
+  email: 'contact@avantefurniture.com',
+  phone: '+38349309080',
+  phones: [
+    { number: '+38349309080', label: '+383 49 309 080' },
+    { number: '+38349500287', label: '+383 49 500 287' },
+  ],
+  location: 'Magjistralja Fushe Kosove – Peje, Bresje',
+  social: {
+    instagram: 'https://instagram.com/avantefurniture',
+    facebook: 'https://facebook.com/avantefurniture',
+    whatsapp: [
+      { number: '+38349309080', href: 'https://wa.me/38349309080', label: '+383 49 309 080' },
+      { number: '+38349500287', href: 'https://wa.me/38349500287', label: '+383 49 500 287' },
+    ],
+  },
 } as const;
 
 export const NAV = [
@@ -23,7 +36,7 @@ export const SPACES = {
     description:
       'Custom kitchens designed for how you cook, gather, and start every day.',
     image: '/images/hero-kitchen.svg',
-    accent: '#c45c26',
+    accent: '#9A5B36',
   },
   office: {
     slug: 'office',
@@ -32,7 +45,7 @@ export const SPACES = {
     description:
       'Flexible office furniture for startups and teams who refuse to sit still.',
     image: '/images/hero-office.svg',
-    accent: '#2d6a4f',
+    accent: '#26333B',
   },
   bedroom: {
     slug: 'bedroom',
@@ -41,6 +54,6 @@ export const SPACES = {
     description:
       'Sleeping rooms built for calm — storage, comfort, and clean modern lines.',
     image: '/images/hero-bedroom.svg',
-    accent: '#5c4d7a',
+    accent: '#5E7D78',
   },
 } as const;

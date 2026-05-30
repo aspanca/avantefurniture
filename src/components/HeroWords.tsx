@@ -15,12 +15,12 @@ const container = {
 };
 
 const line = {
-  hidden: { opacity: 0, y: '70%' },
+  hidden: { opacity: 0, y: '80%' },
   show: {
     opacity: 1,
     y: '0%',
     transition: {
-      duration: 1.1,
+      duration: 1.0,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -45,25 +45,24 @@ export default function HeroWords({ lines }: Props) {
         .hero-words {
           display: flex;
           flex-direction: column;
-          font-family: var(--font-serif);
-          font-size: clamp(3.75rem, 8vw, 6.5rem);
-          font-weight: 400;
+          font-family: var(--font-display);
+          font-size: clamp(3.5rem, 7.5vw, 6.25rem);
+          font-weight: 800;
           line-height: 1.0;
-          letter-spacing: -0.02em;
+          letter-spacing: -0.03em;
           margin: 0.5rem 0 0;
           color: var(--color-text);
         }
         .hero-line-wrap {
           display: block;
           overflow: hidden;
-          padding-bottom: 0.04em;
+          padding-bottom: 0.06em;
         }
         .hero-line {
           display: block;
           will-change: transform, opacity;
         }
         .hero-line-wrap:nth-child(2) .hero-line {
-          font-style: italic;
           color: var(--color-accent);
         }
       `}</style>

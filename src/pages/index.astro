@@ -28,8 +28,8 @@ const spaceList = Object.values(SPACES);
 const marqueeItems = [
   'Kitchens', 'Offices', 'Bedrooms',
   'Bespoke Design', 'Premium Craft',
-  'Avante Furniture', 'Built to Last',
-  'Young Energy', 'Modern Living',
+  'Avante', 'Built to Last',
+  'Turning Houses into Homes',
 ];
 ---
 
@@ -41,7 +41,7 @@ const marqueeItems = [
       <div class="hero-copy">
         <p class="eyebrow reveal">
           <span class="eyebrow-line"></span>
-          Young team · Bold design · Built to last
+          {SITE.tagline}
         </p>
         <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} />
         <p class="hero-lead reveal reveal-delay-2">
@@ -88,6 +88,19 @@ const marqueeItems = [
 
   <!-- ── Marquee ── -->
   <Marquee items={marqueeItems} />
+
+  <!-- ── Brand Statement ── -->
+  <section class="statement-section">
+    <div class="container">
+      <div class="statement-inner reveal">
+        <span class="statement-num">—</span>
+        <blockquote class="statement-quote">
+          "Turning houses into homes."
+          <cite>Avante</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
 
   <!-- ── Spaces ── -->
   <section class="spaces-section">
@@ -271,10 +284,7 @@ const marqueeItems = [
     min-height: calc(80vh - 4rem);
   }
 
-  .hero-copy {
-    display: flex;
-    flex-direction: column;
-  }
+  .hero-copy { display: flex; flex-direction: column; }
 
   .hero-lead {
     font-size: 1.0625rem;
@@ -291,13 +301,12 @@ const marqueeItems = [
     flex-wrap: wrap;
   }
 
-  /* Visual */
   .hero-visual { position: relative; }
 
   .hero-img-frame {
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: 0 32px 80px rgba(28, 22, 10, 0.18);
+    box-shadow: 0 32px 80px rgba(26, 37, 48, 0.18);
   }
 
   .hero-img-frame img {
@@ -310,7 +319,6 @@ const marqueeItems = [
 
   .hero-img-frame:hover img { transform: scale(1.03); }
 
-  /* Floating badge */
   .hero-badge {
     position: absolute;
     bottom: -1rem;
@@ -321,17 +329,17 @@ const marqueeItems = [
     padding: 1rem 1.375rem;
     background: var(--color-surface);
     border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(28, 22, 10, 0.14);
+    box-shadow: 0 8px 40px rgba(26, 37, 48, 0.14);
     animation: float 4.5s ease-in-out infinite;
   }
 
   .hero-badge strong {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: 2.25rem;
-    font-weight: 500;
+    font-weight: 800;
     color: var(--color-accent);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   .hero-badge span {
@@ -341,7 +349,6 @@ const marqueeItems = [
     line-height: 1.4;
   }
 
-  /* Status pill */
   .hero-status {
     position: absolute;
     top: 1.75rem;
@@ -355,7 +362,7 @@ const marqueeItems = [
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--color-inverse);
-    box-shadow: 0 4px 24px rgba(28, 22, 10, 0.2);
+    box-shadow: 0 4px 24px rgba(26, 37, 48, 0.2);
     white-space: nowrap;
     animation: float 4.5s ease-in-out 1s infinite reverse;
   }
@@ -364,12 +371,11 @@ const marqueeItems = [
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #22c55e;
+    background: #4ade80;
     flex-shrink: 0;
     animation: pulse-dot 2.5s ease-in-out infinite;
   }
 
-  /* Scroll hint */
   .hero-scroll {
     display: flex;
     flex-direction: column;
@@ -378,8 +384,8 @@ const marqueeItems = [
     padding: 2rem 0;
     font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-family: var(--font-display);
+    letter-spacing: 0.14em;
+    font-family: var(--font-ui);
     color: var(--color-muted);
   }
 
@@ -405,8 +411,54 @@ const marqueeItems = [
     50% { opacity: 1; transform: scaleY(1); }
   }
 
+  /* ── Brand Statement ── */
+  .statement-section {
+    padding: 5rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .statement-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    max-width: 860px;
+  }
+
+  .statement-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.4rem;
+  }
+
+  .statement-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--color-text);
+    margin: 0;
+    quotes: none;
+  }
+
+  .statement-quote cite {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    font-style: normal;
+    margin-top: 1.25rem;
+  }
+
   /* ── Spaces ── */
-  .spaces-section { padding: 5rem 0 0; }
+  .spaces-section { padding: 0; }
 
   .spaces-head {
     display: grid;
@@ -414,6 +466,7 @@ const marqueeItems = [
     gap: 2rem;
     align-items: end;
     margin-bottom: 3rem;
+    padding-top: 1rem;
   }
 
   .spaces-title {
@@ -465,9 +518,9 @@ const marqueeItems = [
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(8, 6, 4, 0.9) 0%,
-      rgba(8, 6, 4, 0.22) 52%,
-      rgba(8, 6, 4, 0.04) 100%
+      rgba(38, 51, 59, 0.92) 0%,
+      rgba(38, 51, 59, 0.22) 52%,
+      rgba(38, 51, 59, 0.04) 100%
     );
     transition: background 0.4s;
   }
@@ -475,9 +528,9 @@ const marqueeItems = [
   .space-card:hover .space-card-overlay {
     background: linear-gradient(
       to top,
-      rgba(8, 6, 4, 0.94) 0%,
-      rgba(8, 6, 4, 0.46) 55%,
-      rgba(8, 6, 4, 0.12) 100%
+      rgba(38, 51, 59, 0.96) 0%,
+      rgba(38, 51, 59, 0.46) 55%,
+      rgba(38, 51, 59, 0.12) 100%
     );
   }
 
@@ -493,11 +546,11 @@ const marqueeItems = [
   }
 
   .space-num {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.1em;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.12em;
   }
 
   .space-card-text { margin-top: auto; }
@@ -524,6 +577,7 @@ const marqueeItems = [
     padding: 0.55rem 1.1rem;
     background: var(--accent);
     color: #fff;
+    font-family: var(--font-display);
     font-size: 0.8rem;
     font-weight: 600;
     border-radius: 999px;
@@ -593,18 +647,18 @@ const marqueeItems = [
   }
 
   .stat-num {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: clamp(2.75rem, 4.5vw, 4rem);
-    font-weight: 400;
+    font-weight: 800;
     color: var(--color-inverse);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     line-height: 1;
   }
 
   .stat-suffix {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: clamp(1.5rem, 2.5vw, 2.25rem);
-    font-weight: 400;
+    font-weight: 700;
     color: var(--color-accent);
     line-height: 1;
   }
@@ -612,7 +666,7 @@ const marqueeItems = [
   .stat-item p {
     margin: 0;
     font-size: 0.8rem;
-    color: rgba(245, 240, 232, 0.38);
+    color: rgba(228, 238, 236, 0.38);
     font-weight: 500;
     letter-spacing: 0.02em;
   }
@@ -773,9 +827,10 @@ const marqueeItems = [
     }
 
     .hero-visual { order: -1; }
-
     .hero-badge { left: auto; right: 1rem; bottom: 1rem; }
     .hero-status { right: 0.5rem; top: 1.25rem; }
+
+    .statement-inner { gap: 1.25rem; }
 
     .spaces-head { grid-template-columns: 1fr; }
 
@@ -786,9 +841,7 @@ const marqueeItems = [
 
     .space-card:first-child,
     .space-card:last-child { border-radius: 0; }
-
     .space-card + .space-card { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
-
     .space-card-body { min-height: 320px; }
     .space-cta { opacity: 1; transform: none; }
 
