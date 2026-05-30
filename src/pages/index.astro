@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroWords from '../components/HeroWords';
+import Marquee from '../components/Marquee.astro';
 import { SITE, SPACES } from '../lib/site';
 import { getCollection } from 'astro:content';
 import { getProjectHref } from '../lib/projects';
@@ -23,6 +24,13 @@ function getSpaceHref(slug: keyof typeof SPACES) {
 }
 
 const spaceList = Object.values(SPACES);
+
+const marqueeItems = [
+  'Kitchens', 'Offices', 'Bedrooms',
+  'Bespoke Design', 'Premium Craft',
+  'Avante Furniture', 'Built to Last',
+  'Young Energy', 'Modern Living',
+];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
@@ -31,9 +39,9 @@ const spaceList = Object.values(SPACES);
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="hero-eyebrow reveal">
-          <span class="dot" aria-hidden="true"></span>
-          Young team · Bold furniture · Built to last
+        <p class="eyebrow reveal">
+          <span class="eyebrow-line"></span>
+          Young team · Bold design · Built to last
         </p>
         <HeroWords client:load lines={['We design', 'spaces that', 'move you.']} />
         <p class="hero-lead reveal reveal-delay-2">
@@ -42,153 +50,205 @@ const spaceList = Object.values(SPACES);
         </p>
         <div class="hero-actions reveal reveal-delay-3">
           <a href="/contact" class="btn btn-primary">Start a project</a>
-          <a href="/about" class="btn btn-ghost">Meet the team →</a>
+          <a href="/about" class="btn btn-ghost">
+            Meet the team
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
         </div>
       </div>
-      <div class="hero-visual reveal reveal-delay-2">
-        <img
-          src="/images/hero-kitchen.svg"
-          alt="Modern kitchen interior by Avante"
-          width="680"
-          height="520"
-          fetchpriority="high"
-        />
-        <div class="hero-tag reveal reveal-delay-3" aria-hidden="true">
+
+      <div class="hero-visual reveal reveal-delay-1">
+        <div class="hero-img-frame">
+          <img
+            src="/images/hero-kitchen.svg"
+            alt="Modern kitchen interior by Avante"
+            width="680"
+            height="820"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-badge" aria-hidden="true">
           <strong>50+</strong>
           <span>Projects<br>delivered</span>
         </div>
+        <div class="hero-status" aria-hidden="true">
+          <span class="status-dot"></span>
+          <span>Available for new projects</span>
+        </div>
       </div>
     </div>
-    <!-- scroll hint -->
+
     <div class="hero-scroll" aria-hidden="true">
       <span class="scroll-line"></span>
-      <span>Scroll</span>
+      <span class="scroll-label">Scroll</span>
     </div>
   </section>
 
+  <!-- ── Marquee ── -->
+  <Marquee items={marqueeItems} />
+
   <!-- ── Spaces ── -->
-  <section class="spaces-section" aria-labelledby="spaces-heading">
-    <div class="container spaces-header reveal">
-      <p class="section-label">What we do</p>
-      <h2 id="spaces-heading">Three spaces.<br>One team.</h2>
+  <section class="spaces-section">
+    <div class="container spaces-head">
+      <div class="reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          Our work
+        </p>
+        <h2 class="spaces-title">Three spaces.<br>One team.</h2>
+      </div>
+      <p class="spaces-sub reveal reveal-delay-1">
+        From the kitchen where mornings begin to the office where ideas take shape —
+        we design furniture for the moments that matter.
+      </p>
     </div>
 
     <div class="spaces-strip">
-      {
-        spaceList.map((space, i) => (
-          <a
-            href={getSpaceHref(space.slug)}
-            class="space-strip-item reveal"
-            style={`--accent: ${space.accent}`}
-          >
-            <div class="space-strip-img">
-              <img src={space.image} alt="" width="600" height="800" loading={i === 0 ? 'eager' : 'lazy'} />
-              <div class="space-strip-overlay" />
+      {spaceList.map((space, i) => (
+        <a
+          href={getSpaceHref(space.slug)}
+          class="space-card reveal"
+          style={`--accent: ${space.accent}; transition-delay: ${i * 0.12}s`}
+        >
+          <div class="space-card-bg">
+            <img src={space.image} alt="" width="600" height="800" loading={i === 0 ? 'eager' : 'lazy'} />
+            <div class="space-card-overlay" />
+          </div>
+          <div class="space-card-body">
+            <span class="space-num">0{i + 1}</span>
+            <div class="space-card-text">
+              <h3>{space.title}</h3>
+              <p>{space.headline}</p>
             </div>
-            <div class="space-strip-content">
-              <span class="space-strip-num">0{i + 1}</span>
-              <div class="space-strip-text">
-                <h3>{space.title}</h3>
-                <p>{space.headline}</p>
-              </div>
-              <span class="space-strip-cta">View work</span>
-            </div>
-          </a>
-        ))
-      }
+            <span class="space-cta">
+              View work
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 
-  <!-- ── Company ── -->
-  <section class="company-section" aria-labelledby="company-heading">
-    <div class="container company-inner">
-      <div class="company-copy reveal">
-        <p class="section-label">Why Avante</p>
-        <h2 id="company-heading">A real company,<br>not a catalog.</h2>
-        <p class="company-lead">
-          Our crew is young, hands-on, and obsessed with getting details right.
-          We show up, measure twice, and build furniture that feels alive.
+  <!-- ── Stats ── -->
+  <section class="stats-section">
+    <div class="container stats-inner">
+      <div class="stats-copy">
+        <p class="eyebrow eyebrow--light reveal">
+          <span class="eyebrow-line"></span>
+          Why Avante
         </p>
-        <div class="company-stats">
-          <div class="stat reveal reveal-delay-1">
-            <strong>50+</strong>
-            <span>Projects delivered</span>
-          </div>
-          <div class="stat reveal reveal-delay-2">
-            <strong>12</strong>
-            <span>Designers &amp; craftspeople</span>
-          </div>
-          <div class="stat reveal reveal-delay-3">
-            <strong>3</strong>
-            <span>Core specialties</span>
-          </div>
-        </div>
-        <a href="/about" class="btn btn-outline reveal reveal-delay-3">Our story →</a>
+        <h2 class="stats-heading reveal reveal-delay-1">A real company,<br>not a catalog.</h2>
+        <p class="stats-lead reveal reveal-delay-2">
+          Our crew is young, hands-on, and obsessed with getting details right.
+          We show up, measure twice, and build furniture that feels alive in your home.
+        </p>
+        <a href="/about" class="btn btn-outline-light reveal reveal-delay-3">Our story →</a>
       </div>
-      <div class="company-visual reveal reveal-delay-1">
-        <img
-          src="/images/team-energy.svg"
-          alt="Avante team at work in the studio"
-          width="520"
-          height="400"
-          loading="lazy"
-        />
+
+      <div class="stats-grid">
+        <div class="stat-item reveal reveal-delay-1">
+          <div class="stat-num-wrap">
+            <strong class="stat-num" data-count="50">0</strong>
+            <span class="stat-suffix">+</span>
+          </div>
+          <p>Projects delivered</p>
+        </div>
+        <div class="stat-item reveal reveal-delay-2">
+          <div class="stat-num-wrap">
+            <strong class="stat-num" data-count="12">0</strong>
+          </div>
+          <p>Designers &amp; craftspeople</p>
+        </div>
+        <div class="stat-item reveal reveal-delay-3">
+          <div class="stat-num-wrap">
+            <strong class="stat-num" data-count="3">0</strong>
+          </div>
+          <p>Core specialties</p>
+        </div>
+        <div class="stat-item reveal reveal-delay-4">
+          <div class="stat-num-wrap">
+            <strong class="stat-num" data-count="100">0</strong>
+            <span class="stat-suffix">%</span>
+          </div>
+          <p>Client satisfaction</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── Journal ── -->
-  {
-    posts.length > 0 && (
-      <section class="journal-section" aria-labelledby="journal-heading">
-        <div class="container">
-          <div class="journal-head reveal">
-            <div>
-              <p class="section-label">Journal</p>
-              <h2 id="journal-heading">From the studio</h2>
-            </div>
-            <a href="/blog" class="btn btn-outline">All posts →</a>
+  {posts.length > 0 && (
+    <section class="journal-section">
+      <div class="container">
+        <div class="journal-head reveal">
+          <div>
+            <p class="eyebrow">
+              <span class="eyebrow-line"></span>
+              Journal
+            </p>
+            <h2>From the studio</h2>
           </div>
-          <ul class="journal-list">
-            {posts.map((post, i) => (
-              <li class="reveal" style={`transition-delay: ${i * 0.1}s`}>
-                <a href={`/blog/${post.slug}`} class="journal-card">
-                  {post.data.image && (
-                    <div class="journal-card-img">
-                      <img src={post.data.image} alt="" width="280" height="180" loading="lazy" />
-                    </div>
-                  )}
-                  <div class="journal-card-body">
-                    <time datetime={post.data.pubDate.toISOString()}>
-                      {post.data.pubDate.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    <h3>{post.data.title}</h3>
-                    <p>{post.data.description}</p>
-                  </div>
-                  <svg class="journal-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <a href="/blog" class="btn btn-outline">All posts →</a>
         </div>
-      </section>
-    )
-  }
+        <div class="journal-grid">
+          {posts.map((post, i) => (
+            <a href={`/blog/${post.slug}`} class="jcard reveal" style={`transition-delay: ${i * 0.1}s`}>
+              <div class="jcard-img">
+                {post.data.image ? (
+                  <img src={post.data.image} alt="" width="480" height="320" loading="lazy" />
+                ) : (
+                  <div class="jcard-placeholder" />
+                )}
+              </div>
+              <div class="jcard-body">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric',
+                  })}
+                </time>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+                <span class="jcard-read">
+                  Read more
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- ── CTA ── -->
   <section class="cta-section">
-    <div class="container cta-inner reveal">
-      <p class="section-label">Ready?</p>
-      <h2>Let's build something<br>worth living in.</h2>
-      <div class="cta-actions">
-        <a href="/contact" class="btn btn-primary btn-lg">Start a project</a>
-        <a href="/spaces/kitchen" class="btn btn-ghost-light">Browse our work →</a>
+    <div class="container cta-inner">
+      <div class="cta-copy">
+        <p class="eyebrow eyebrow--light reveal">
+          <span class="eyebrow-line"></span>
+          Ready to begin?
+        </p>
+        <h2 class="cta-heading reveal reveal-delay-1">Let's build something<br>worth living in.</h2>
+        <p class="cta-lead reveal reveal-delay-2">
+          Whether it's a dream kitchen, a productive office, or a peaceful bedroom —
+          we're ready to design it with you.
+        </p>
+      </div>
+      <div class="cta-actions reveal reveal-delay-3">
+        <a href="/contact" class="btn btn-primary btn-cta-lg">Start a project</a>
+        <a href="/spaces/kitchen" class="btn btn-ghost-light">
+          Browse our work
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
       </div>
     </div>
   </section>
@@ -196,137 +256,138 @@ const spaceList = Object.values(SPACES);
 </BaseLayout>
 
 <style>
-  /* ── Section shared ── */
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin: 0 0 0.6rem;
-  }
-
   /* ── Hero ── */
   .hero {
     padding: 3.5rem 0 0;
-    position: relative;
     overflow: hidden;
   }
 
   .hero-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 4rem;
     align-items: center;
-    padding-bottom: 3rem;
+    padding-bottom: 3.5rem;
+    min-height: calc(80vh - 4rem);
   }
 
   .hero-copy {
     display: flex;
     flex-direction: column;
-    gap: 0;
-  }
-
-  .hero-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: var(--color-muted);
-    margin: 0 0 1.25rem;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    display: inline-block;
-    flex-shrink: 0;
-    animation: pulse-dot 2.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.7; }
   }
 
   .hero-lead {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
     color: var(--color-muted);
-    max-width: 44ch;
-    line-height: 1.65;
-    margin: 1.5rem 0 2rem;
+    max-width: 42ch;
+    margin: 1.75rem 0 2rem;
   }
 
   .hero-actions {
     display: flex;
+    align-items: center;
+    gap: 1.25rem;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
   }
 
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background: none;
-    border: none;
-    font-family: var(--font-sans);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-text);
-    cursor: pointer;
-    padding: 0;
-    text-decoration: none;
-    transition: gap 0.2s ease, color 0.2s;
+  /* Visual */
+  .hero-visual { position: relative; }
+
+  .hero-img-frame {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(28, 22, 10, 0.18);
   }
 
-  .btn-ghost:hover {
-    color: var(--color-accent);
-    gap: 0.5rem;
-  }
-
-  .hero-visual {
-    position: relative;
-  }
-
-  .hero-visual img {
+  .hero-img-frame img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 24px 64px rgba(26, 26, 26, 0.14);
+    display: block;
+    transition: transform 8s ease;
   }
 
-  .hero-tag {
+  .hero-img-frame:hover img { transform: scale(1.03); }
+
+  /* Floating badge */
+  .hero-badge {
     position: absolute;
     bottom: -1rem;
-    left: -1.5rem;
+    left: -2rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.375rem;
     background: var(--color-surface);
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(26, 26, 26, 0.1);
-    animation: float 4s ease-in-out infinite;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(28, 22, 10, 0.14);
+    animation: float 4.5s ease-in-out infinite;
   }
 
-  .hero-tag strong {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
+  .hero-badge strong {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: 500;
     color: var(--color-accent);
     line-height: 1;
+    letter-spacing: -0.02em;
   }
 
-  .hero-tag span {
-    font-size: 0.8rem;
+  .hero-badge span {
+    font-size: 0.78rem;
     color: var(--color-muted);
     font-weight: 500;
     line-height: 1.4;
+  }
+
+  /* Status pill */
+  .hero-status {
+    position: absolute;
+    top: 1.75rem;
+    right: -0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    background: var(--color-dark);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-inverse);
+    box-shadow: 0 4px 24px rgba(28, 22, 10, 0.2);
+    white-space: nowrap;
+    animation: float 4.5s ease-in-out 1s infinite reverse;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    animation: pulse-dot 2.5s ease-in-out infinite;
+  }
+
+  /* Scroll hint */
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 2rem 0;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: var(--font-display);
+    color: var(--color-muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(to bottom, transparent, var(--color-border));
+    animation: scroll-pulse 2.2s ease-in-out infinite;
   }
 
   @keyframes float {
@@ -334,51 +395,49 @@ const spaceList = Object.values(SPACES);
     50% { transform: translateY(-8px); }
   }
 
-  .hero-scroll {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-    padding-bottom: 1.5rem;
+  @keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
   }
 
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, transparent, var(--color-border));
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
   }
 
-  /* ── Spaces strip ── */
-  .spaces-section {
-    padding: 4rem 0 0;
+  /* ── Spaces ── */
+  .spaces-section { padding: 5rem 0 0; }
+
+  .spaces-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: end;
+    margin-bottom: 3rem;
   }
 
-  .spaces-header {
-    margin-bottom: 2.5rem;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
-  }
-
-  .spaces-header h2 {
+  .spaces-title {
     font-size: clamp(2rem, 4vw, 2.75rem);
-    margin: 0;
     line-height: 1.1;
+    margin-top: 0;
+  }
+
+  .spaces-sub {
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 44ch;
+    margin: 0;
+    align-self: end;
   }
 
   .spaces-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    min-height: 520px;
+    min-height: 580px;
   }
 
-  .space-strip-item {
+  .space-card {
     position: relative;
     display: block;
     text-decoration: none;
@@ -386,88 +445,78 @@ const spaceList = Object.values(SPACES);
     cursor: pointer;
   }
 
-  .space-strip-item:first-child {
-    border-radius: 0 0 0 20px;
-  }
+  .space-card:first-child { border-radius: 0 0 0 var(--radius-xl); }
+  .space-card:last-child  { border-radius: 0 0 var(--radius-xl) 0; }
+  .space-card + .space-card { border-left: 1px solid rgba(255,255,255,0.06); }
 
-  .space-strip-item:last-child {
-    border-radius: 0 0 20px 0;
-  }
+  .space-card-bg { position: absolute; inset: 0; }
 
-  .space-strip-img {
-    position: absolute;
-    inset: 0;
-  }
-
-  .space-strip-img img {
+  .space-card-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .space-strip-item:hover .space-strip-img img {
-    transform: scale(1.06);
-  }
+  .space-card:hover .space-card-bg img { transform: scale(1.06); }
 
-  .space-strip-overlay {
+  .space-card-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(10, 10, 10, 0.85) 0%,
-      rgba(10, 10, 10, 0.2) 55%,
-      rgba(10, 10, 10, 0.05) 100%
+      rgba(8, 6, 4, 0.9) 0%,
+      rgba(8, 6, 4, 0.22) 52%,
+      rgba(8, 6, 4, 0.04) 100%
     );
-    transition: background 0.4s ease;
+    transition: background 0.4s;
   }
 
-  .space-strip-item:hover .space-strip-overlay {
+  .space-card:hover .space-card-overlay {
     background: linear-gradient(
       to top,
-      rgba(10, 10, 10, 0.9) 0%,
-      rgba(10, 10, 10, 0.45) 55%,
-      rgba(10, 10, 10, 0.15) 100%
+      rgba(8, 6, 4, 0.94) 0%,
+      rgba(8, 6, 4, 0.46) 55%,
+      rgba(8, 6, 4, 0.12) 100%
     );
   }
 
-  .space-strip-content {
+  .space-card-body {
     position: relative;
     z-index: 1;
     height: 100%;
-    min-height: 520px;
+    min-height: 580px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.75rem;
+    padding: 2rem;
   }
 
-  .space-strip-num {
-    font-family: var(--font-display);
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.5);
+  .space-num {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
     letter-spacing: 0.1em;
   }
 
-  .space-strip-text {
-    margin-top: auto;
-  }
+  .space-card-text { margin-top: auto; }
 
-  .space-strip-text h3 {
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  .space-card-text h3 {
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
     color: #fff;
-    margin: 0 0 0.35rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.1;
   }
 
-  .space-strip-text p {
-    color: rgba(255, 255, 255, 0.65);
+  .space-card-text p {
+    color: rgba(255,255,255,0.58);
     font-size: 0.9rem;
     margin: 0;
     line-height: 1.5;
   }
 
-  .space-strip-cta {
+  .space-cta {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -475,101 +524,102 @@ const spaceList = Object.values(SPACES);
     padding: 0.55rem 1.1rem;
     background: var(--accent);
     color: #fff;
+    font-size: 0.8rem;
     font-weight: 600;
-    font-size: 0.85rem;
     border-radius: 999px;
     align-self: flex-start;
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  .space-strip-item:hover .space-strip-cta {
-    opacity: 1;
-    transform: translateY(0);
+  .space-card:hover .space-cta { opacity: 1; transform: translateY(0); }
+
+  /* ── Stats ── */
+  .stats-section {
+    background: var(--color-dark);
+    padding: 6rem 0;
   }
 
-  /* Dividers between strips */
-  .space-strip-item + .space-strip-item {
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  /* ── Company ── */
-  .company-section {
-    padding: 5rem 0;
-  }
-
-  .company-inner {
+  .stats-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 5rem;
     align-items: center;
   }
 
-  .company-copy {
+  .stats-heading {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--color-inverse);
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .stats-lead {
+    color: var(--color-inverse-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 40ch;
+    margin: 1.25rem 0 2rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .stat-item {
+    background: var(--color-dark-2);
+    padding: 2.25rem 2rem;
+    transition: background 0.25s;
+  }
+
+  .stat-item:hover { background: var(--color-dark-3); }
+
+  .stat-item:first-child  { border-radius: var(--radius-lg) 0 0 0; }
+  .stat-item:nth-child(2) { border-radius: 0 var(--radius-lg) 0 0; }
+  .stat-item:nth-child(3) { border-radius: 0 0 0 var(--radius-lg); }
+  .stat-item:last-child   { border-radius: 0 0 var(--radius-lg) 0; }
+
+  .stat-num-wrap {
     display: flex;
-    flex-direction: column;
-    gap: 0;
+    align-items: baseline;
+    gap: 0.05em;
+    margin-bottom: 0.5rem;
   }
 
-  .company-copy h2 {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-    margin: 0 0 1rem;
-    line-height: 1.15;
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: clamp(2.75rem, 4.5vw, 4rem);
+    font-weight: 400;
+    color: var(--color-inverse);
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
 
-  .company-lead {
-    color: var(--color-muted);
-    font-size: 1.05rem;
-    line-height: 1.65;
-    max-width: 44ch;
-    margin: 0 0 2rem;
-  }
-
-  .company-stats {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .stat strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 2.25rem;
-    font-weight: 800;
+  .stat-suffix {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 400;
     color: var(--color-accent);
     line-height: 1;
-    margin-bottom: 0.25rem;
   }
 
-  .stat span {
-    font-size: 0.85rem;
-    color: var(--color-muted);
+  .stat-item p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(245, 240, 232, 0.38);
     font-weight: 500;
-  }
-
-  .company-visual {
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 24px 64px rgba(26, 26, 26, 0.1);
-  }
-
-  .company-visual img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.6s ease;
-  }
-
-  .company-visual:hover img {
-    transform: scale(1.03);
+    letter-spacing: 0.02em;
   }
 
   /* ── Journal ── */
   .journal-section {
-    padding: 4rem 0 5rem;
+    padding: 5rem 0;
     border-top: 1px solid var(--color-border);
   }
 
@@ -578,216 +628,217 @@ const spaceList = Object.values(SPACES);
     align-items: flex-end;
     justify-content: space-between;
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
-  .journal-head h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0;
-  }
+  .journal-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-top: 0.25rem; }
 
-  .journal-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .journal-grid {
     display: grid;
-    gap: 1px;
-    background: var(--color-border);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .journal-list li {
-    background: var(--color-surface);
-  }
-
-  .journal-list li:first-child {
-    border-radius: 16px 16px 0 0;
-  }
-
-  .journal-list li:last-child {
-    border-radius: 0 0 16px 16px;
-  }
-
-  .journal-list li:only-child {
-    border-radius: 16px;
-  }
-
-  .journal-card {
-    display: flex;
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    padding: 1.25rem 1.5rem;
+  }
+
+  .jcard {
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
   }
 
-  .journal-card:hover {
-    background: rgba(26, 26, 26, 0.02);
+  .jcard:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
     color: inherit;
   }
 
-  .journal-card-img {
-    width: 100px;
-    height: 68px;
-    flex-shrink: 0;
-    border-radius: 8px;
+  .jcard-img {
+    aspect-ratio: 3 / 2;
     overflow: hidden;
-    background: var(--color-border);
+    background: var(--color-surface-alt);
   }
 
-  .journal-card-img img {
+  .jcard-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
   }
 
-  .journal-card-body {
+  .jcard:hover .jcard-img img { transform: scale(1.05); }
+
+  .jcard-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-border), var(--color-accent-light));
+  }
+
+  .jcard-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
     flex: 1;
-    min-width: 0;
   }
 
-  .journal-card-body time {
+  .jcard-body time {
     font-size: 0.75rem;
     color: var(--color-muted);
     font-weight: 500;
   }
 
-  .journal-card-body h3 {
-    margin: 0.2rem 0 0.3rem;
+  .jcard-body h3 {
     font-size: 1.05rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0.1rem 0 0.15rem;
+    line-height: 1.3;
   }
 
-  .journal-card-body p {
-    margin: 0;
+  .jcard-body p {
     font-size: 0.875rem;
     color: var(--color-muted);
+    margin: 0;
+    line-height: 1.55;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
-  .journal-arrow {
-    flex-shrink: 0;
-    color: var(--color-muted);
-    transition: transform 0.2s ease, color 0.15s;
-  }
-
-  .journal-card:hover .journal-arrow {
-    transform: translateX(4px);
+  .jcard-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--color-accent);
+    transition: gap 0.2s ease;
   }
+
+  .jcard:hover .jcard-read { gap: 0.6rem; }
 
   /* ── CTA ── */
   .cta-section {
-    background: var(--color-text);
-    padding: 5rem 0;
+    background: var(--color-dark);
+    padding: 7rem 0;
   }
 
   .cta-inner {
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
   }
 
-  .cta-inner .section-label {
-    color: rgba(232, 93, 4, 0.9);
-  }
-
-  .cta-inner h2 {
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    color: #fff;
-    margin: 0 0 2rem;
+  .cta-heading {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    color: var(--color-inverse);
     line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .cta-lead {
+    color: var(--color-inverse-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 42ch;
+    margin: 1.25rem 0 0;
   }
 
   .cta-actions {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 1.25rem;
+    justify-content: center;
   }
 
-  .btn-lg {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-
-  .btn-ghost-light {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background: none;
-    border: none;
-    font-family: var(--font-sans);
+  .btn-cta-lg {
+    padding: 1.1rem 2.25rem;
     font-size: 0.9375rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.65);
-    cursor: pointer;
-    padding: 0;
-    text-decoration: none;
-    transition: color 0.2s, gap 0.2s;
-  }
-
-  .btn-ghost-light:hover {
-    color: #fff;
-    gap: 0.5rem;
   }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .hero-inner {
       grid-template-columns: 1fr;
+      min-height: auto;
+      gap: 3rem;
     }
 
-    .hero-visual {
-      order: -1;
-    }
+    .hero-visual { order: -1; }
 
-    .hero-tag {
-      left: auto;
-      right: 1rem;
-      bottom: 1rem;
-    }
+    .hero-badge { left: auto; right: 1rem; bottom: 1rem; }
+    .hero-status { right: 0.5rem; top: 1.25rem; }
 
-    .spaces-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    .spaces-head { grid-template-columns: 1fr; }
 
     .spaces-strip {
       grid-template-columns: 1fr;
       min-height: auto;
     }
 
-    .space-strip-item:first-child,
-    .space-strip-item:last-child {
-      border-radius: 0;
-    }
+    .space-card:first-child,
+    .space-card:last-child { border-radius: 0; }
 
-    .space-strip-item + .space-strip-item {
-      border-left: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    .space-card + .space-card { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
 
-    .space-strip-content {
-      min-height: 300px;
-    }
+    .space-card-body { min-height: 320px; }
+    .space-cta { opacity: 1; transform: none; }
 
-    .space-strip-cta {
-      opacity: 1;
-      transform: none;
-    }
+    .stats-inner { grid-template-columns: 1fr; gap: 3rem; }
 
-    .company-inner {
-      grid-template-columns: 1fr;
-    }
+    .journal-grid { grid-template-columns: 1fr 1fr; }
 
-    .journal-card-img {
-      display: none;
-    }
+    .cta-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .cta-actions { flex-direction: row; align-items: center; }
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
+
+    .stat-item:first-child  { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .stat-item:nth-child(2) { border-radius: 0; }
+    .stat-item:nth-child(3) { border-radius: 0; }
+    .stat-item:last-child   { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+    .journal-grid { grid-template-columns: 1fr; }
+    .cta-actions { flex-direction: column; align-items: flex-start; }
   }
 </style>
+
+<script>
+  function countUp(el: HTMLElement, target: number, duration = 1600) {
+    const start = performance.now();
+    const update = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statEls = document.querySelectorAll<HTMLElement>('.stat-num');
+  if (statEls.length) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            countUp(el, parseInt(el.dataset.count ?? '0', 10));
+            obs.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    statEls.forEach((el) => obs.observe(el));
+  }
+</script>

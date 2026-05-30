@@ -26,61 +26,58 @@ const images = getPostImages(post);
   type="article"
 >
   <article class="post-article">
-    <header class="post-hero reveal">
-      <div class="container post-hero-inner">
-        <a href="/blog" class="back-link">← Journal</a>
-        <time datetime={post.data.pubDate.toISOString()}>
-          {
-            post.data.pubDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })
-          }
+
+    <!-- ── Header ── -->
+    <header class="post-header">
+      <div class="container post-header-inner reveal">
+        <a href="/blog" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Journal
+        </a>
+        <time datetime={post.data.pubDate.toISOString()} class="post-date">
+          {post.data.pubDate.toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric',
+          })}
         </time>
-        <h1>{post.data.title}</h1>
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-desc">{post.data.description}</p>
       </div>
     </header>
 
-    {
-      images.length > 0 && (
-        <div class="container reveal">
-          <ImageCarousel images={images} label={`Photos for ${post.data.title}`} />
-        </div>
-      )
-    }
+    <!-- ── Carousel ── -->
+    {images.length > 0 && (
+      <div class="container carousel-wrap reveal">
+        <ImageCarousel images={images} label={`Photos for ${post.data.title}`} />
+      </div>
+    )}
 
+    <!-- ── Content ── -->
     <div class="container post-layout reveal">
       <aside class="post-sidebar">
-        <div class="post-summary-card">
-          <p class="summary-label">About this post</p>
-          <p class="summary-text">{post.data.description}</p>
-        </div>
-        <dl class="post-meta">
-          <div>
-            <dt>Published</dt>
-            <dd>
-              <time datetime={post.data.pubDate.toISOString()}>
-                {
-                  post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })
-                }
-              </time>
-            </dd>
-          </div>
-          {
-            images.length > 1 && (
+        <div class="post-meta-card">
+          <dl class="post-meta">
+            <div>
+              <dt>Published</dt>
+              <dd>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric',
+                  })}
+                </time>
+              </dd>
+            </div>
+            {images.length > 1 && (
               <div>
                 <dt>Photos</dt>
                 <dd>{images.length} images</dd>
               </div>
-            )
-          }
-        </dl>
-        <a href="/blog" class="btn btn-outline">All posts</a>
+            )}
+          </dl>
+        </div>
+        <a href="/blog" class="btn btn-outline sidebar-btn">All posts</a>
+        <a href="/contact" class="btn btn-primary sidebar-btn">Start a project</a>
       </aside>
 
       <div class="post-body">
@@ -89,108 +86,114 @@ const images = getPostImages(post);
         </div>
       </div>
     </div>
+
   </article>
 </BaseLayout>
 
 <style>
-  .post-article {
-    padding-bottom: 4rem;
-  }
-
-  .post-hero {
-    padding: 3rem 0 1.5rem;
+  .post-header {
+    padding: 3.5rem 0 2rem;
     border-bottom: 1px solid var(--color-border);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
-  .post-hero-inner {
-    max-width: 720px;
-  }
+  .post-header-inner { max-width: 760px; }
 
   .back-link {
-    display: inline-block;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
-  }
-
-  .post-hero time {
-    font-size: 0.85rem;
     color: var(--color-muted);
+    transition: color 0.2s, gap 0.2s;
   }
 
-  .post-hero h1 {
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    margin: 0.5rem 0 0;
+  .back-link:hover { color: var(--color-text); gap: 0.6rem; }
+
+  .post-date {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
   }
 
+  .post-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+
+  .post-desc {
+    font-size: 1.1rem;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.65;
+    max-width: 58ch;
+  }
+
+  .carousel-wrap { margin-bottom: 3rem; }
+
+  /* ── Layout ── */
   .post-layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 3rem;
+    grid-template-columns: 260px 1fr;
+    gap: 3.5rem;
     align-items: start;
+    padding-bottom: 5rem;
   }
 
-  .post-summary-card {
-    padding: 1.25rem;
-    background: var(--color-accent-soft);
-    border-radius: var(--radius);
-    margin-bottom: 1.5rem;
+  .post-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: sticky;
+    top: 5.5rem;
   }
 
-  .summary-label {
-    margin: 0 0 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
+  .post-meta-card {
+    background: var(--color-accent-light);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.25rem;
   }
 
-  .summary-text {
-    margin: 0;
-    font-size: 1.05rem;
-    line-height: 1.55;
-    color: var(--color-text);
-  }
-
-  .post-meta {
-    margin: 0 0 1.5rem;
-  }
-
-  .post-meta div {
-    margin-bottom: 1rem;
-  }
+  .post-meta { margin: 0; }
+  .post-meta div { margin-bottom: 0.9rem; }
+  .post-meta div:last-child { margin-bottom: 0; }
 
   .post-meta dt {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-muted);
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
     margin-bottom: 0.2rem;
   }
 
   .post-meta dd {
     margin: 0;
     font-weight: 600;
+    font-size: 0.9375rem;
   }
 
-  .post-sidebar .btn {
-    width: 100%;
-  }
+  .sidebar-btn { width: 100%; }
 
-  .post-body {
-    min-width: 0;
-  }
+  .post-body { min-width: 0; }
 
+  /* ── Responsive ── */
   @media (max-width: 768px) {
     .post-layout {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
 
     .post-sidebar {
+      position: static;
       order: -1;
     }
   }

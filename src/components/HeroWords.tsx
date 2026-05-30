@@ -4,42 +4,69 @@ interface Props {
   lines: string[];
 }
 
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const line = {
+  hidden: { opacity: 0, y: '70%' },
+  show: {
+    opacity: 1,
+    y: '0%',
+    transition: {
+      duration: 1.1,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
 export default function HeroWords({ lines }: Props) {
   return (
-    <h1 className="hero-words">
-      {lines.map((line, i) => (
-        <motion.span
-          key={line}
-          className="hero-line"
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            delay: i * 0.12,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          {line}
-        </motion.span>
+    <motion.h1
+      className="hero-words"
+      variants={container}
+      initial="hidden"
+      animate="show"
+    >
+      {lines.map((text, i) => (
+        <span key={i} className="hero-line-wrap">
+          <motion.span className="hero-line" variants={line}>
+            {text}
+          </motion.span>
+        </span>
       ))}
       <style>{`
         .hero-words {
           display: flex;
           flex-direction: column;
-          font-family: var(--font-display);
-          font-size: clamp(2.5rem, 6vw, 4.25rem);
-          font-weight: 800;
-          line-height: 1.05;
-          letter-spacing: -0.03em;
-          margin: 0;
+          font-family: var(--font-serif);
+          font-size: clamp(3.75rem, 8vw, 6.5rem);
+          font-weight: 400;
+          line-height: 1.0;
+          letter-spacing: -0.02em;
+          margin: 0.5rem 0 0;
+          color: var(--color-text);
+        }
+        .hero-line-wrap {
+          display: block;
+          overflow: hidden;
+          padding-bottom: 0.04em;
         }
         .hero-line {
           display: block;
+          will-change: transform, opacity;
         }
-        .hero-line:nth-child(2) {
+        .hero-line-wrap:nth-child(2) .hero-line {
+          font-style: italic;
           color: var(--color-accent);
         }
       `}</style>
-    </h1>
+    </motion.h1>
   );
 }

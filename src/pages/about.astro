@@ -7,134 +7,337 @@ import { SITE } from '../lib/site';
   title="About"
   description="Meet Avante — a young furniture company with energy, craft, and a focus on kitchens, offices, and bedrooms."
 >
-  <section class="page-hero">
-    <div class="container reveal">
-      <p class="section-eyebrow">About us</p>
-      <h1>Young energy. Serious craft.</h1>
-      <p class="lead">
-        We're {SITE.name} — a furniture company built by people who care how spaces feel, not
-        just how they look.
-      </p>
+
+  <!-- ── Hero ── -->
+  <section class="about-hero">
+    <div class="container about-hero-inner">
+      <div class="reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          About us
+        </p>
+        <h1 class="about-headline">Young energy.<br>Serious craft.</h1>
+        <p class="about-lead">
+          We're {SITE.name} — a furniture company built by people who care how spaces feel,
+          not just how they look.
+        </p>
+      </div>
+      <div class="about-hero-img reveal reveal-delay-2">
+        <img
+          src="/images/team-energy.svg"
+          alt="Avante team collaborating in the studio"
+          width="560"
+          height="420"
+          loading="eager"
+        />
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container about-grid">
-      <div class="reveal">
-        <h2>Our story</h2>
+  <!-- ── Story ── -->
+  <section class="story-section section">
+    <div class="container story-inner">
+      <div class="story-copy reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          Our story
+        </p>
+        <h2>We started with a simple idea.</h2>
         <p>
-          We started with a simple idea: furniture should match the pace of modern life. Our team
-          blends design, woodworking, and project management — mostly under 35, all obsessed with
+          Furniture should match the pace of modern life. Our team blends design,
+          woodworking, and project management — mostly under 35, all obsessed with
           getting details right.
         </p>
         <p>
-          Whether it's a kitchen that hosts Sunday brunch, an office that scales with your startup,
-          or a bedroom designed for real rest — we treat every project like our reputation depends
-          on it. Because it does.
+          Whether it's a kitchen that hosts Sunday brunch, an office that scales with
+          your startup, or a bedroom designed for real rest — we treat every project
+          like our reputation depends on it. Because it does.
         </p>
       </div>
-      <div class="reveal reveal-delay-1">
-        <img src="/images/team-energy.svg" alt="Avante team collaborating" width="560" height="420" loading="lazy" />
+      <div class="story-stats reveal reveal-delay-1">
+        <div class="story-stat">
+          <strong>50+</strong>
+          <span>Projects delivered</span>
+        </div>
+        <div class="story-stat">
+          <strong>12</strong>
+          <span>Team members</span>
+        </div>
+        <div class="story-stat">
+          <strong>3</strong>
+          <span>Core specialties</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section values">
+  <!-- ── Values ── -->
+  <section class="values-section">
     <div class="container">
-      <h2 class="reveal">What we stand for</h2>
+      <div class="values-head reveal">
+        <p class="eyebrow">
+          <span class="eyebrow-line"></span>
+          What we stand for
+        </p>
+        <h2>Built on principles,<br>not promises.</h2>
+      </div>
       <ul class="values-list">
-        <li class="reveal reveal-delay-1">
+        <li class="value-card reveal reveal-delay-1">
+          <span class="value-num">01</span>
           <strong>Company-first</strong>
-          <p>You work with a real team — designers, builders, project leads — not a faceless store.</p>
+          <p>You work with a real team — designers, builders, project leads — not a faceless store. We put a face behind every project.</p>
         </li>
-        <li class="reveal reveal-delay-2">
-          <strong>Young & hungry</strong>
-          <p>Fresh ideas, fast communication, and zero corporate drag.</p>
+        <li class="value-card reveal reveal-delay-2">
+          <span class="value-num">02</span>
+          <strong>Young &amp; hungry</strong>
+          <p>Fresh ideas, fast communication, and zero corporate drag. We move quickly and think deeply about every decision.</p>
         </li>
-        <li class="reveal reveal-delay-3">
+        <li class="value-card reveal reveal-delay-3">
+          <span class="value-num">03</span>
           <strong>Built to last</strong>
-          <p>Quality materials and honest construction, every time.</p>
+          <p>Quality materials and honest construction, every time. We design for the long term — not the trend cycle.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="cta-inline container reveal">
-    <a href="/contact" class="btn btn-primary">Work with us</a>
+  <!-- ── CTA ── -->
+  <section class="about-cta">
+    <div class="container about-cta-inner reveal">
+      <div>
+        <p class="eyebrow eyebrow--light">
+          <span class="eyebrow-line"></span>
+          Let's collaborate
+        </p>
+        <h2 class="about-cta-heading">Ready to start<br>your project?</h2>
+      </div>
+      <div class="about-cta-actions">
+        <a href="/contact" class="btn btn-primary btn-lg-cta">Work with us</a>
+        <a href="/spaces/kitchen" class="btn btn-ghost-light">
+          See our work →
+        </a>
+      </div>
+    </div>
   </section>
+
 </BaseLayout>
 
 <style>
-  .page-hero {
-    padding: 3rem 0 2rem;
+  /* ── Hero ── */
+  .about-hero {
+    padding: 4rem 0;
+    overflow: hidden;
   }
 
-  .page-hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin: 0 0 1rem;
+  .about-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
   }
 
-  .lead {
-    font-size: 1.2rem;
+  .about-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.06;
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .about-lead {
+    font-size: 1.15rem;
     color: var(--color-muted);
-    max-width: 55ch;
+    max-width: 46ch;
+    line-height: 1.65;
     margin: 0;
   }
 
-  .about-grid {
+  .about-hero-img {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .about-hero-img img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .about-hero-img:hover img { transform: scale(1.03); }
+
+  /* ── Story ── */
+  .story-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 5rem;
     align-items: start;
   }
 
-  .about-grid img {
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    width: 100%;
+  .story-copy h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    margin: 0.5rem 0 1.25rem;
   }
 
-  .values {
+  .story-copy p {
+    color: var(--color-muted);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .story-copy p:last-child { margin-bottom: 0; }
+
+  .story-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    align-self: start;
+    margin-top: 2rem;
+  }
+
+  .story-stat {
+    padding: 1.75rem 2rem;
     background: var(--color-surface);
-    border-block: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s;
   }
 
-  .values h2 {
-    text-align: center;
-    margin-bottom: 2rem;
+  .story-stat:last-child { border-bottom: none; }
+  .story-stat:hover { background: var(--color-surface-alt); }
+
+  .story-stat strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--color-accent);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.3rem;
+  }
+
+  .story-stat span {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  /* ── Values ── */
+  .values-section {
+    background: var(--color-dark);
+    padding: 6rem 0;
+  }
+
+  .values-head {
+    margin-bottom: 3rem;
+  }
+
+  .values-head h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--color-inverse);
+    line-height: 1.1;
+    margin-top: 0.5rem;
   }
 
   .values-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1px;
     list-style: none;
     margin: 0;
     padding: 0;
+    background: rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
   }
 
-  .values-list strong {
+  .value-card {
+    background: var(--color-dark-2);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.25s;
+  }
+
+  .value-card:hover { background: var(--color-dark-3); }
+
+  .value-num {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-accent);
+    letter-spacing: 0.06em;
+  }
+
+  .value-card strong {
     display: block;
     font-family: var(--font-display);
     font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--color-inverse);
+    letter-spacing: -0.015em;
   }
 
-  .values-list p {
+  .value-card p {
     margin: 0;
-    color: var(--color-muted);
-    font-size: 0.95rem;
+    color: rgba(245, 240, 232, 0.48);
+    font-size: 0.9rem;
+    line-height: 1.65;
   }
 
-  .cta-inline {
-    padding: 3rem 0 4rem;
-    text-align: center;
+  /* ── CTA ── */
+  .about-cta {
+    background: var(--color-dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 5rem 0;
   }
 
-  @media (max-width: 768px) {
-    .about-grid,
-    .values-list {
+  .about-cta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-cta-heading {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--color-inverse);
+    line-height: 1.1;
+    margin-top: 0.5rem;
+  }
+
+  .about-cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .btn-lg-cta {
+    padding: 1rem 2rem;
+    font-size: 0.9375rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .about-hero-inner,
+    .story-inner,
+    .about-cta-inner {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
+
+    .about-cta-actions { justify-content: flex-start; }
+
+    .values-list { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .about-cta-actions { flex-direction: column; align-items: flex-start; }
   }
 </style>

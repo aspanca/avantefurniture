@@ -7,114 +7,194 @@ import { SITE } from '../lib/site';
   title="Contact"
   description="Get in touch with Avante for kitchen, office, and bedroom furniture projects."
 >
-  <section class="page-hero">
+
+  <!-- ── Hero ── -->
+  <section class="contact-hero">
     <div class="container reveal">
-      <p class="section-eyebrow">Contact</p>
-      <h1>Let's talk about your space</h1>
-      <p class="lead">Tell us what you're building — we'll reply within one business day.</p>
+      <p class="eyebrow">
+        <span class="eyebrow-line"></span>
+        Contact
+      </p>
+      <h1 class="contact-headline">Let's talk about<br>your space.</h1>
+      <p class="contact-lead">
+        Tell us what you're building — we'll reply within one business day.
+      </p>
     </div>
   </section>
 
-  <section class="section">
+  <!-- ── Form ── -->
+  <section class="contact-body section">
     <div class="container contact-grid">
-      <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form
+        class="contact-form reveal"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
         <input type="hidden" name="form-name" value="contact" />
         <p class="hidden">
           <label>Don't fill this out: <input name="bot-field" /></label>
         </p>
-        <label>
-          Name
-          <input type="text" name="name" required autocomplete="name" />
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required autocomplete="email" />
-        </label>
-        <label>
-          Space type
+
+        <div class="form-row">
+          <label class="form-label">
+            <span>Your name</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Jane Smith" />
+          </label>
+          <label class="form-label">
+            <span>Email address</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="jane@example.com" />
+          </label>
+        </div>
+
+        <label class="form-label">
+          <span>Space type</span>
           <select name="space" required>
-            <option value="">Select…</option>
+            <option value="">Select a space…</option>
             <option value="kitchen">Kitchen</option>
             <option value="office">Office</option>
             <option value="bedroom">Bedroom</option>
             <option value="other">Other / multiple</option>
           </select>
         </label>
-        <label>
-          Message
-          <textarea name="message" rows="5" required placeholder="Tell us about your project…"></textarea>
+
+        <label class="form-label">
+          <span>Your message</span>
+          <textarea name="message" rows="5" required placeholder="Tell us about your project — timeline, budget, and what you have in mind…"></textarea>
         </label>
-        <button type="submit" class="btn btn-primary">Send message</button>
+
+        <button type="submit" class="btn btn-primary form-submit">
+          Send message
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </form>
 
       <aside class="contact-info reveal reveal-delay-1">
-        <h2>Direct</h2>
-        <p>
-          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-        </p>
-        <p>
-          <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a>
-        </p>
-        <h2>Studio hours</h2>
-        <p>Mon – Fri, 9am – 6pm</p>
+        <div class="info-block">
+          <p class="info-label">Email us directly</p>
+          <a href={`mailto:${SITE.email}`} class="info-link">{SITE.email}</a>
+        </div>
+        <div class="info-block">
+          <p class="info-label">Call us</p>
+          <a href={`tel:${SITE.phone.replace(/\D/g, '')}`} class="info-link">{SITE.phone}</a>
+        </div>
+        <div class="info-block">
+          <p class="info-label">Studio hours</p>
+          <p class="info-text">Mon – Fri<br>9:00 am – 6:00 pm</p>
+        </div>
+
+        <div class="info-spaces">
+          <p class="info-label">What we design</p>
+          <ul class="info-space-list">
+            <li>
+              <span class="space-dot" style="background: #c45c26"></span>
+              Kitchens
+            </li>
+            <li>
+              <span class="space-dot" style="background: #2d6a4f"></span>
+              Offices
+            </li>
+            <li>
+              <span class="space-dot" style="background: #5c4d7a"></span>
+              Bedrooms
+            </li>
+          </ul>
+        </div>
       </aside>
     </div>
   </section>
+
 </BaseLayout>
 
 <style>
-  .page-hero {
-    padding: 3rem 0 1rem;
+  /* ── Hero ── */
+  .contact-hero {
+    padding: 4rem 0 2rem;
   }
 
-  .page-hero h1 {
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    margin: 0 0 0.75rem;
+  .contact-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.06;
+    margin: 0.5rem 0 1.25rem;
   }
 
-  .lead {
+  .contact-lead {
+    font-size: 1.1rem;
     color: var(--color-muted);
     margin: 0;
+    max-width: 46ch;
   }
 
+  /* ── Form grid ── */
   .contact-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 4rem;
     align-items: start;
   }
 
+  /* ── Form ── */
   .contact-form {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 1.25rem;
-    padding: 2rem;
-    background: var(--color-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
   }
 
-  .contact-form label {
+  .form-row {
     display: grid;
-    gap: 0.4rem;
-    font-weight: 600;
-    font-size: 0.9rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
   }
+
+  .form-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-label span { letter-spacing: 0.01em; }
 
   .contact-form input,
   .contact-form select,
   .contact-form textarea {
     font: inherit;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background: var(--color-bg);
+    font-size: 0.9375rem;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: rgba(138, 126, 116, 0.6);
   }
 
   .contact-form input:focus,
   .contact-form select:focus,
   .contact-form textarea:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.1);
+  }
+
+  .contact-form textarea { resize: vertical; min-height: 130px; }
+
+  .form-submit {
+    align-self: flex-start;
+    padding: 1rem 2rem;
+    font-size: 0.9375rem;
+    margin-top: 0.25rem;
   }
 
   .hidden {
@@ -122,19 +202,78 @@ import { SITE } from '../lib/site';
     left: -9999px;
   }
 
-  .contact-info h2 {
-    font-size: 1rem;
-    margin: 0 0 0.5rem;
+  /* ── Info sidebar ── */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 0.5rem;
   }
 
-  .contact-info p {
-    margin: 0 0 1.5rem;
+  .info-block {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .info-block:last-of-type { border-bottom: none; padding-bottom: 0; }
+
+  .info-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     color: var(--color-muted);
+    margin: 0 0 0.6rem;
   }
 
-  @media (max-width: 768px) {
-    .contact-grid {
-      grid-template-columns: 1fr;
-    }
+  .info-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: block;
+  }
+
+  .info-link:hover { color: var(--color-accent); }
+
+  .info-text {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .info-spaces { padding-top: 0.5rem; }
+
+  .info-space-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .info-space-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .space-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 800px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
   }
 </style>

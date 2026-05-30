@@ -28,13 +28,15 @@ const { title, description, image, type, noindex } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
     <SEO title={title} description={description} image={image} type={type} noindex={noindex} />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
     <Header />
     <main id="main">
       <slot />
@@ -50,7 +52,7 @@ const { title, description, image, type, noindex } = Astro.props;
     position: absolute;
     top: -100px;
     left: 1rem;
-    z-index: 200;
+    z-index: 9000;
     padding: 0.75rem 1rem;
     background: var(--color-accent);
     color: #fff;
@@ -58,8 +60,32 @@ const { title, description, image, type, noindex } = Astro.props;
     font-weight: 600;
     text-decoration: none;
   }
-
-  .skip-link:focus {
-    top: 1rem;
-  }
+  .skip-link:focus { top: 1rem; }
 </style>
+
+<script>
+  const dot  = document.getElementById('cursor-dot') as HTMLElement | null;
+  const ring = document.getElementById('cursor-ring') as HTMLElement | null;
+
+  if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.transform = `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px))`;
+    });
+
+    (function tick() {
+      rx += (mx - rx) * 0.13;
+      ry += (my - ry) * 0.13;
+      ring.style.transform = `translate(calc(-50% + ${rx}px), calc(-50% + ${ry}px))`;
+      requestAnimationFrame(tick);
+    })();
+
+    document.querySelectorAll('a, button, [role="button"]').forEach((el) => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  }
+</script>
