@@ -1,0 +1,69 @@
+---
+import { SITE } from '../lib/site';
+
+/** Netlify subdomain — use as Identity API fallback if custom domain has issues */
+const NETLIFY_SITE_URL = 'https://avante-website.netlify.app';
+---
+
+<!-- Loads only when invite / confirmation / recovery tokens are in the URL (from email links). -->
+<script define:vars={{ siteUrl: SITE.url, netlifySiteUrl: NETLIFY_SITE_URL }}>
+  const IDENTITY_HASH =
+    /(invite_token|confirmation_token|recovery_token|access_token)=/;
+
+  function shouldLoadIdentity() {
+    if (window.location.pathname.startsWith('/admin')) return false;
+    return IDENTITY_HASH.test(window.location.hash);
+  }
+
+  function initIdentity() {
+    const identity = window.netlifyIdentity;
+    if (!identity) return;
+
+    identity.init();
+
+    identity.on('init', (user) => {
+      if (user) {
+        window.location.replace('/admin/');
+        return;
+      }
+
+      identity.on('login', () => {
+        window.location.replace('/admin/');
+      });
+
+      identity.on('error', (err) => {
+        console.error('Netlify Identity error:', err);
+      });
+
+      // Open the modal for invite / confirmation / recovery tokens in the hash
+      if (IDENTITY_HASH.test(window.location.hash)) {
+        identity.open();
+      }
+    });
+  }
+
+  function loadIdentityScript() {
+    if (window.netlifyIdentity) {
+      initIdentity();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+    script.onload = () => {
+      // Help local dev and custom domains resolve the correct Identity instance
+      if (!localStorage.getItem('netlifySiteURL')) {
+        localStorage.setItem('netlifySiteURL', siteUrl);
+      }
+      initIdentity();
+    };
+    script.onerror = () => {
+      console.error('Failed to load Netlify Identity widget');
+    };
+    document.head.appendChild(script);
+  }
+
+  if (shouldLoadIdentity()) {
+    loadIdentityScript();
+  }
+</script>

@@ -42,6 +42,10 @@ Deploy: `npx netlify-cli deploy --prod` (after `npm run build`).
 1. **Site settings → Identity** → Enable Identity.
 2. **Identity → Services** → Enable **Git Gateway**.
 3. Visit **https://avantefurniture.com/admin** and invite editors via Identity.
+4. **Identity → Emails → Edit templates** — set invite/confirmation links to:
+   `https://avantefurniture.com/account/#invite_token={{ .Token }}`  
+   (and `.../account/#confirmation_token={{ .Token }}` for confirmation emails).
+5. Invited users open that link, set a password in the modal, then land in `/admin`.
 
 **Collections:**
 
@@ -59,6 +63,12 @@ npx decap-server
 ```
 
 Run alongside `npm run dev` with `local_backend: true` in `public/admin/config.yml`.
+
+**CORS errors with Identity?** The widget only loads on `/admin`, not public pages. If `/admin` still fails:
+
+1. Enable **Identity** and **Git Gateway**, then trigger a new deploy.
+2. In the browser console: `localStorage.removeItem('netlifySiteURL')` and refresh.
+3. For local `/admin`, run `npx decap-server` (uses `local_backend`) or when prompted enter `https://avante-website.netlify.app` (Netlify subdomain, not the custom domain).
 
 ### Contact form
 

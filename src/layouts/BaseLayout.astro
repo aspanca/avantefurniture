@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SEO from '../components/SEO.astro';
 import ScrollReveal from '../components/ScrollReveal.astro';
+import NetlifyIdentity from '../components/NetlifyIdentity.astro';
 import { SITE } from '../lib/site';
 
 interface Props {
@@ -40,6 +41,7 @@ const { title, description, image, type, noindex } = Astro.props;
     </main>
     <Footer />
     <ScrollReveal />
+    <NetlifyIdentity />
   </body>
 </html>
 

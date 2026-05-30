@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Account"
+  description="Accept your Avante CMS invitation or confirm your email."
+  noindex={true}
+>
+  <section class="account-page container">
+    <p class="section-eyebrow">CMS access</p>
+    <h1>Complete your account</h1>
+    <p class="lead">
+      If you were invited to edit the site, use the form below to set your password and
+      confirm your email. After that, you’ll be redirected to the admin.
+    </p>
+    <p class="hint">
+      Opened the wrong page? Go to <a href="/admin/">/admin</a> to sign in, or ask an admin
+      to send a new invite.
+    </p>
+  </section>
+</BaseLayout>
+
+<!-- Always load Identity on this page (invite/confirmation emails should link here). -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.init();
+
+    window.netlifyIdentity.on('init', (user) => {
+      if (user) {
+        window.location.replace('/admin/');
+        return;
+      }
+
+      window.netlifyIdentity.on('login', () => {
+        window.location.replace('/admin/');
+      });
+
+      const hash = window.location.hash;
+      if (
+        hash.includes('invite_token') ||
+        hash.includes('confirmation_token') ||
+        hash.includes('recovery_token')
+      ) {
+        window.netlifyIdentity.open();
+      } else {
+        window.netlifyIdentity.open('login');
+      }
+    });
+  }
+</script>
+
+<style>
+  .account-page {
+    padding: 4rem 0 6rem;
+    max-width: 52ch;
+  }
+
+  .account-page h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    color: var(--color-muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .hint {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>
