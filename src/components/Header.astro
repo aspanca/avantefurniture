@@ -11,13 +11,7 @@ const spaceList = Object.values(SPACES);
 
     <!-- Logo -->
     <a href="/" class="logo" aria-label={`${SITE.name} home`}>
-      <span class="logo-mark-wrap" aria-hidden="true">
-        <svg viewBox="0 0 120 76" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
-          <path fill-rule="evenodd" fill="currentColor"
-            d="M 0 76 L 66 0 L 120 0 L 120 76 Z M 74 9 L 103 9 L 103 38 L 74 38 Z"/>
-        </svg>
-      </span>
-      <span class="logo-text">{SITE.name}</span>
+      <img src="/images/logo-black.png" alt={SITE.name} class="logo-img" width="120" height="40" />
     </a>
 
     <!-- Mobile toggle -->
@@ -77,11 +71,7 @@ const spaceList = Object.values(SPACES);
   <div class="mm-inner">
     <div class="mm-top">
       <a href="/" class="mm-logo" aria-label="Avante home">
-        <svg viewBox="0 0 120 76" fill="none" xmlns="http://www.w3.org/2000/svg" class="mm-logo-svg">
-          <path fill-rule="evenodd" fill="currentColor"
-            d="M 0 76 L 66 0 L 120 0 L 120 76 Z M 74 9 L 103 9 L 103 38 L 74 38 Z"/>
-        </svg>
-        <span>{SITE.name}</span>
+        <img src="/images/logo-white.png" alt={SITE.name} class="mm-logo-img" width="110" height="36" />
       </a>
       <button type="button" class="mm-close" id="mm-close" aria-label="Close menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -180,29 +170,18 @@ const spaceList = Object.values(SPACES);
   .logo {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
     text-decoration: none;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
     flex-shrink: 0;
-    color: var(--color-dark);
     transition: opacity 0.2s;
   }
 
-  .logo:hover { opacity: 0.75; color: var(--color-dark); }
+  .logo:hover { opacity: 0.7; }
 
-  .logo-mark-wrap {
-    display: flex;
-    align-items: center;
-    color: var(--color-dark);
-    transition: transform 0.3s var(--ease-out);
+  .logo-img {
+    height: 34px;
+    width: auto;
+    display: block;
   }
-
-  .logo:hover .logo-mark-wrap { transform: scale(1.06); }
-
-  .logo-svg { width: 30px; height: auto; display: block; }
 
   /* ── Desktop nav ── */
   .nav {
@@ -382,16 +361,17 @@ const spaceList = Object.values(SPACES);
   .mm-logo {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
     text-decoration: none;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-    color: #fff;
+    transition: opacity 0.2s;
   }
 
-  .mm-logo-svg { width: 28px; height: auto; color: #fff; }
+  .mm-logo:hover { opacity: 0.75; }
+
+  .mm-logo-img {
+    height: 32px;
+    width: auto;
+    display: block;
+  }
 
   .mm-close {
     display: flex;
