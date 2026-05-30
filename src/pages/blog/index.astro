@@ -12,54 +12,62 @@ const posts = (await getCollection('posts'))
   title="Journal"
   description="News, project stories, and updates from the Avante furniture team."
 >
-  <section class="page-hero">
-    <div class="container reveal">
-      <p class="section-eyebrow">Journal</p>
+  <div class="page-hero">
+    <div class="container">
+      <p class="section-label">Journal</p>
       <h1>Stories from the studio</h1>
-      <p class="lead">Project updates, design notes, and company news.</p>
+      <p class="page-lead">Project updates, design notes, and company news.</p>
     </div>
-  </section>
+  </div>
 
-  <section class="section">
+  <section class="journal-body">
     <div class="container">
       {
         posts.length === 0 ? (
-          <p class="empty reveal">No posts yet — add your first in Netlify CMS at /admin.</p>
+          <div class="empty-state reveal">
+            <p>No posts yet.</p>
+            <a href="/admin" class="btn btn-outline">Add one in the CMS →</a>
+          </div>
         ) : (
-          <ul class="blog-list">
-            {posts.map((post) => {
+          <ul class="post-list">
+            {posts.map((post, i) => {
               const images = getPostImages(post);
               const cover = images[0]?.src;
               const photoCount = images.length;
 
               return (
-                <li class="reveal">
-                  <article class="blog-card">
-                    <a href={`/blog/${post.slug}`} class="blog-card-link">
-                      <div class="blog-card-media">
-                        {cover ? (
-                          <img src={cover} alt="" width="400" height="240" loading="lazy" />
-                        ) : (
-                          <div class="blog-card-placeholder" aria-hidden="true" />
-                        )}
+                <li class="reveal" style={`transition-delay: ${i * 0.08}s`}>
+                  <a href={`/blog/${post.slug}`} class="post-row">
+                    {cover ? (
+                      <div class="post-thumb">
+                        <img src={cover} alt="" width="280" height="180" loading={i < 3 ? 'eager' : 'lazy'} />
                         {photoCount > 1 && (
-                          <span class="photo-badge">{photoCount} photos</span>
+                          <span class="photo-badge">{photoCount}</span>
                         )}
                       </div>
-                      <div class="blog-card-body">
-                        <time datetime={post.data.pubDate.toISOString()}>
-                          {post.data.pubDate.toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </time>
-                        <h2>{post.data.title}</h2>
-                        <p class="blog-card-desc">{post.data.description}</p>
-                        <span class="read-more">View post →</span>
-                      </div>
-                    </a>
-                  </article>
+                    ) : (
+                      <div class="post-thumb post-thumb-empty" aria-hidden="true" />
+                    )}
+
+                    <div class="post-meta">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {post.data.pubDate.toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    </div>
+
+                    <div class="post-body">
+                      <h2>{post.data.title}</h2>
+                      <p>{post.data.description}</p>
+                    </div>
+
+                    <svg class="post-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
                 </li>
               );
             })}
@@ -72,117 +80,170 @@ const posts = (await getCollection('posts'))
 
 <style>
   .page-hero {
-    padding: 3rem 0 1rem;
+    padding: 3.5rem 0 2rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
   }
 
   .page-hero h1 {
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    margin: 0 0 0.5rem;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    margin: 0 0 0.75rem;
   }
 
-  .lead {
+  .page-lead {
     color: var(--color-muted);
+    font-size: 1.1rem;
     margin: 0;
+    max-width: 52ch;
   }
 
-  .blog-list {
+  .journal-body {
+    padding-bottom: 5rem;
+  }
+
+  /* Post list */
+  .post-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 1.5rem;
-  }
-
-  .blog-card-link {
-    display: grid;
-    grid-template-columns: minmax(200px, 280px) 1fr;
-    gap: 1.5rem;
-    text-decoration: none;
-    padding: 1.25rem;
-    background: var(--color-surface);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    transition: transform var(--transition), box-shadow var(--transition);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
   }
 
-  .blog-card-link:hover {
+  .post-list li + li {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .post-row {
+    display: grid;
+    grid-template-columns: 160px 130px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
     color: inherit;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(26, 26, 26, 0.12);
+    background: var(--color-surface);
+    transition: background 0.15s;
   }
 
-  .blog-card-media {
+  .post-row:hover {
+    background: rgba(26, 26, 26, 0.025);
+    color: inherit;
+  }
+
+  .post-thumb {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: var(--color-border);
   }
 
-  .blog-card-media img {
+  .post-thumb img {
     width: 100%;
-    aspect-ratio: 5 / 3;
+    height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.5s ease;
   }
 
-  .blog-card-link:hover .blog-card-media img {
-    transform: scale(1.04);
+  .post-row:hover .post-thumb img {
+    transform: scale(1.05);
   }
 
-  .blog-card-placeholder {
-    aspect-ratio: 5 / 3;
+  .post-thumb-empty {
     background: linear-gradient(135deg, var(--color-border), var(--color-accent-soft));
   }
 
   .photo-badge {
     position: absolute;
-    bottom: 0.65rem;
-    right: 0.65rem;
-    padding: 0.25rem 0.65rem;
-    font-size: 0.7rem;
+    bottom: 0.4rem;
+    right: 0.4rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: grid;
+    place-items: center;
+    font-size: 0.65rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     background: rgba(26, 26, 26, 0.75);
     color: #fff;
-    border-radius: 999px;
+    border-radius: 50%;
   }
 
-  .blog-card-body time {
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .post-meta time {
     font-size: 0.8rem;
+    font-weight: 500;
     color: var(--color-muted);
+    white-space: nowrap;
   }
 
-  .blog-card-body h2 {
-    margin: 0.35rem 0 0.5rem;
-    font-size: 1.35rem;
+  .post-body h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.35rem;
   }
 
-  .blog-card-desc {
-    margin: 0 0 1rem;
+  .post-body p {
+    margin: 0;
+    font-size: 0.875rem;
     color: var(--color-muted);
-    line-height: 1.55;
+    line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .read-more {
-    font-weight: 600;
-    font-size: 0.9rem;
+  .post-arrow {
+    color: var(--color-muted);
+    transition: transform 0.2s ease, color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .post-row:hover .post-arrow {
+    transform: translateX(4px);
     color: var(--color-accent);
   }
 
-  .empty {
+  .empty-state {
     text-align: center;
-    color: var(--color-muted);
-    padding: 3rem;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
 
-  @media (max-width: 700px) {
-    .blog-card-link {
-      grid-template-columns: 1fr;
+  .empty-state p {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 800px) {
+    .post-row {
+      grid-template-columns: 100px 1fr auto;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .post-meta {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .post-row {
+      grid-template-columns: 1fr auto;
+    }
+
+    .post-thumb {
+      display: none;
     }
   }
 </style>

@@ -59,6 +59,18 @@ h3 {
   letter-spacing: -0.02em;
 }
 
+/* Shared section label / eyebrow */
+.section-label,
+.section-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  margin: 0 0 0.6rem;
+}
+
 .container {
   width: min(1120px, 92vw);
   margin-inline: auto;
